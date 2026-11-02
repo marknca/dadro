@@ -1,0 +1,125 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: Using DRO:ddisp</title>
+		<meta name="language" content="en">
+		<meta name="description" content="How to use the software of the DRO. Working with the functions provided.">
+		<meta name="robots" content="index,follow">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Digital Scale, Chinese Scale, Display, Software, YADRO, cheap chinese scale, DOS, digital readout, mill, lathe">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1175" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="553" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>Using the DRO's display software</h2>
+						<p>This is the part you will have to deal with most of the time when using the DRO. I'll present the user interface from a day-by-day point of view, and not show what you have to do if you want to add or change macros. For more about extending and reconfiguring the DRO, <a href="macro.html">look here</a>.</p>
+						<p>There are 4 main areas you will have to deal with:</p>
+						<ul>
+							<li type="disc"><a href="#a1">Numerical display (showing X, Y and Z-axis on a mill or Z0, Z1 and X (or diameter) on a lathe)</a>
+							<li type="disc"><a href="#a2">formula line</a>
+							<li type="disc"><a href="#a3">tool selection and editing</a>
+							<li type="disc"><a href="#a4">general functions (like setting zero, changing sign, hole circles, &#133;)</a>
+						</ul>
+						<p>There is also a special mode, the <a href="#a5">stepping mode</a>. It is selected, when a sequence of operations is running and the DRO is waiting for an action to be finished. That action might be drilling a hole of a hole circle.</p>
+						<p>There is a neat little &quot;serial activity indicator&quot; in the almost upper right corner of the screen. A &quot;r&quot; and &quot;R&quot; is displayed for every reading action from the serial port. Every read switches case. In normal circumstances, there is only a flickering mixture of an &quot;r&quot; and an &quot;R&quot; visible. If the scales are not in fast mode, the change will be easily visible. You should initialize the scales to fast mode or the averaging buffer will make the display very lame.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a1"></a>Numerical Display:</h2>
+						<p>The main screen always shows the current reading of three main axes. YADRO's DRO not just has 3 axes, but 3 main axes and 3 secondary axes. These secondary axes can, for example, always display the absolute value of the axis. By default, this is how they are configured. There can be displayed a forth primary and secondary axis, but it currently is not used. The values read from the scales is overshampled, filtered and averaged to increase accuracy and to keep the digits stable. While all axes are read about 30 times a second, they are collected in a buffer and averaged. This averaging is configurable, if you want.</p>
+						<p><img height="300" width="400" src="../pics/dro-screen-1.gif"></p>
+						<p>Behind every axis is room for displaying status information like &quot;NEG&quot;, &quot;ABS&quot;, &quot;REL&quot; &quot;TG -&quot;, &quot;mm&quot;, &quot;inch&quot; etc.</p>
+						<p>The axes names can be changed by editing a configuration file. To avoid confusion, the commonly method is used. X, Y and Z are the axis names for a mill, or X (diameter) and Z0, Z1 (axis of work piece) for a lathe.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a2"></a>Formula Line:</h2>
+						<p>The formula input line is a little helper that avoids you looking for your pocket calculator. It has many trigonomic and mathematical functions (sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, sqr, sqrt, pow) and is working in algebraic mode. That means it handles &quot;(&quot;, &quot;)&quot;, &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot; in the right algebraic sequence. A nice feature is, that you have access to the current values in the display. That is because these values are stored in special variables (named Disp0, Disp1, Disp2, Disp3, SecDisp0, SecDisp1, SecDisp2, SecDisp3).<br>
+						The input line is the second line counting from the bottom. The result is right below it. In this example, the calculation was:<br>
+						Disp1 * 0.5 + 100<br>
+						As Disp1 is 27.54 (X-axis), the result was 113.77</p>
+						<p><img height="300" width="400" src="../pics/dro-screen-2.gif"></p>
+						<p>Before going to much into detail, you have to know how you access the formula line. When the Numerical display is showed, press the &lt;Tab&gt;-key to input your formula. After entering the formula, press &lt;Return&gt; to get the result.</p>
+						<p>The special variables listed above represent the value shown in the numerical display. So instead of reading and typing the current value, you just enter it's variable's name. The names are simply the axes from top to bottom. If you have &quot;X&quot; as your first axis, the corresponding variable is Disp0 (it is always that way, no matter how the axis is named on the display).</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a3"></a>Tool Selection And Editing:</h2>
+						<p>Tool selection is reached by pressing the &quot;#&quot;-key.</p>
+						<p><img height="300" width="400" src="../pics/dro-screen-3.gif"></p>
+						<p>Tools are nothing more than special macros (explained later). If you have enough tool holders and know their geometry, you can change tools and do not have to re-calibrate the axes (by &quot;scratching&quot; the work piece or using an edge finder). For mills, these tool's values are the Z-offset and the mill radius. By selecting a tool, tool correction is automatically selected. When tool geometry compensation is active, a &quot;TG +&quot; or &quot;TG -&quot; is shown in the axis' status. A more <a href="mill.html">detailed explanation</a> can be found here.</p>
+						<p>Editing tools (their geometry changes when they are reground or a tool holder's tool is swapped) can only be done when a tool is active (right above the formula line, the tool's name is shown). When the values are changed, they are stored in a file (persistent variables) that is read back when DRO:ddisp is started. The current tool is displayed in the lower left. In this example, it is &quot;#02&quot;.</p>
+						<p><img height="299" width="400" src="../pics/dro-screen-5.gif"></p>
+						<p>If the &quot;#&quot;-key is hit by accident, the list can be quit by the &lt;Escape&gt;-key. The list can be browsed by the arrow-keys and page up/down or home/end. Also, by typing the tool's name, the cursor jumps to the corresponding line. Pressing &lt;Return&gt; selects the tool.</p>
+						<p>The number of tools is virtually unlimited, currently is set to 10. It can be expanded by editing a file. <a href="macro.html">More about that</a> here.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a4"></a>General Functions:</h2>
+						<p>Beside working with the displayed values themselves, lot of the advantage YADRO's DRO offers are the general functions, or &quot;macros&quot;. YADRO is extensively built around those macros that offer the functionality that is know and offered by decent DROs but goes way beyond them.<br>
+						Macros are accessed and selected via the keyboard in 3 ways:</p>
+						<ul>
+							<li type="disc">by function keys
+							<li type="disc">by browsing a list
+							<li type="disc">by their name
+						</ul>
+						<p>Macros that are frequently used can have a function key (F1&#133;F10) assigned. By pressing the function key, the macro is selected and immediately executed. Of course, stickers on the keyboard help to remember the assigned macros.</p>
+						<p>Browsing through the list of macros is handy for those macros that are seldom used or while getting familiar with YADRO's DRO. The list is accessed by pressing the &lt;SpaceBar&gt;. A list pops up in which all the macros are ordered alphabetically. The cursor-keys change the selection. While selection changes, a more verbose name of the macro appears in the bottom of the screen. If there is a function key assigned, it is also shown in the lower right in inverse. In this case &quot;F3&quot;</p>
+						<p><img height="300" width="400" src="../pics/dro-screen-4.gif"></p>
+						<p>When a macro is to be executed, the &lt;Return&gt;-key has to be pressed. The &lt;Esc&gt;-key closes the list without executing a macro.</p>
+						<p>The most common way to select macros is by their name. This, at a first glance, looks like a lot of typing, but it isn't. The macros are named with abbreviations that also build logical groups. For example, all zeroing operations start with &quot;Z&quot;. The second letter is the axis name or, in this example a &quot;A&quot; for &quot;all axes&quot;. So to set the X-axis to zero, &quot;ZX&quot; has to be typed. After the first letter typed, the macro-list pops up and while typing, the cursor selects the matching macro. To execute the macro, the &lt;Return&gt;-key has to be pressed. The advantage of this method is, that macros are easily remembered and, by pressing (mostly just) 3 keys executed.<br>
+						The selection is not case sensitive.</p>
+						<p>The macros include functionality like setting axes to zero, changing sign, switching between absolute and relative mode, tool correction, offsetting axes by a value etc. A complete list of available macros for a <a href="mill.html">mill</a> or a <a href="lathe.html">lathe</a> can be found here.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a5"></a>Stepping Mode:</h2>
+						<p>YADRO's DRO has a special mode, that is switched on when a sequence of operations has to take place. It is the stepping mode. A common example is a hole circle. When the data is entered into the dialog (center coordinates, number of holes, diameter of circle, angular offset) the appropriate axes are offset in a way that the location where to drill the hole is reached by cranking X and Y to display 0.0. If the hole is drilled, the user presses &lt;Return&gt; and the next point is calculated and displayed. When all points have been drilled, the stepping mode is terminated and the normal mode is activated.<br>
+						To break the stepping mode in the middle of an operation the &lt;Esc&gt;-key has to be pressed. This aborts the whole cycle and immediately selects the normal mode.</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

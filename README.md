@@ -14,7 +14,6 @@ sudo apt install python3 python3-qt6 qt6-wayland
 
 Distributions using other package managers—like `yum`—should have these packages available using the same or similar names. You're looking for Python version 3 or higher and QT version 6 or higher.
 
-
 On macOS, use Homebrew to get up and running quickly with:
 
 ```bash

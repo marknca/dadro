@@ -1,0 +1,99 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: Digital scales and VFDs / Noise suppression.</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Tips about how to shield digital scales against electrical noise. Especialy in conjunction with an VFD (Variable Frequency Device).">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1217" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="568" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="../dro/news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="../dro/diy.html">in brief</a>
+						<li type="disc"><a href="../dro/interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="../dro/display.html">the&nbsp;software</a>
+						<li type="disc"><a href="../dro/mill.html">DRO for a mill</a>
+						<li type="disc"><a href="../dro/lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="../dro/faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="../dro/using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="../dro/using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="../dro/setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="../dro/build-kit.html">building the kit</a>
+						<li type="disc"><a href="../dro/detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="../dro/scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="../dro/detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="../dro/macro.html">macros</a>
+						<li type="disc"><a href="protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="working.html">scales inside out</a>
+						<li type="disc"><a href="vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="../dro/download.html">Downloads</a></p>
+					<p><a href="../dro/buying.html">where to buy</a></p>
+					<p><a href="../dro/newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>Digital scales and / vs. VFDs, or how to suppress noise:</h2>
+						<p>After (or better before) you have fixed the scales to your mill or lathe, you might discover that you have problems getting values from the scales when the VFD is running. If you do have a VFD in your shop, you should consider the following tips.</p>
+						<p>You certainly don't need to follow all tips. <b>But you should not leave out the first tip about shielding the VFD.</b></p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Noisy FVDs:</h2>
+						<p>VFDs (Variable Frequency Devices) are used to drive motors with different speeds than that given by the grid's frequency. But, due to their construction, they tend to generate a lot of electrical noise (spikes). There are several places where that noise can be suppressed or kept out of the scales. The solutions I found are not the final word on it, but at least they helped in two out of two cases.</p>
+						<h2>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						</h2>
+						<h2>1. Shield the FVD:</h2>
+						<p>As always, it is best to suppress the noise where it is coming from. Generally, there came a handbook with your VFD. You didn't read it, so did I.</p>
+						<p><b>But you should read the book! The following tips just show where to look at. Always refer to the handbook! I'm not responsible what you do! If in doubt, ask an electrician!</b></p>
+						<p>Without knowing your brand, I bet that the housing is shielded and that that shielding has to be connected to ground. Normally this is done by connecting the VFDs ground to the lathe's / mill's body. Use thick cable! 2mm<sup>2</sup> and at least as thick as the phases going to the motor. Make a good contact!</p>
+						<p>Use short connections between VFD and motor. The closer the VFD is to the motor and the shorter the cables, the better it is.</p>
+						<p>Next thing is to use a shielded cable between the VFD and the motor. These cables have to be specified for the proper voltage, don't risk anything. It is enough and OK to have a single shield for all the phases. Connect that shielding at both ends to the ground.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>2. Shield the digital Scales:</h2>
+						<p>Some of the better quality digital scales have some aluminium shielding inside. I wouldn't recommend trying to make your own internal. But I suggest making an external shielding by putting the whole scale inside a tube <a href="mounting-modding.html#a5">as I did here</a>.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>3. Shield the digital Scales:</h2>
+						<p>As a lot of the noise confusing the scale is coming &quot;through the air&quot; (electromagnetic waves) to the scale, keep the cables between the interface and the scales short. Bear in mind, that you can mount the interface close to the scales and have a longer serial cable (one of the advantages built into DRO:int4). This setup is by far the most stable setup. If you have a long (1m or more) cable between the interface and the scales, you are asking for trouble if you have a VFD.</p>
+						<p>If you have a closer look at how the digital scales work, you will see that there is a <a href="working.html">coupler board</a> under the beam's sticker. It helps if you connect what I called &quot;comb&quot; and the backside of the thin PCB-strip to the ground (or body) of the scale. Very few scales do that when they come out of the factory, but this is a great improvement. Do not confuse you what ground is: Ground is, what is connected to the scale's body, it is <b>not the negative voltage</b>!</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>4. Shield the digital Scales:</h2>
+						<p>Another route the noise takes to confuse the scale is through the power-supply to the scale. You already have short cables, now you block the noise from the scale's electronics. There is an easy way by simply connecting a 1&micro;F tantalum capacitor between + and - of the scale (put the cap into the battery compartment). If you have big trouble with the scale, you could solder a resistor in the + path. About 1k sounds good. I haven't tried this, because I had no need for it. But in theory you are building a low pass that keeps higher frequencies off.<br>
+						To explain the placement of the resistor better:<br>
+						Unsolder the cable going to the scale's + pad. Connect one side of the resistor to the cable just unsoldered and the other end of the resistor to the scale's pad the cable went to. The capacitor mentioned above is behind the resistor (looking from the interface side).</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>5. Shield the digital Scales:</h2>
+						<p>As you already have short cables between the interface and the scales, it is to late to tell you that you should have used a shielded cable. For this cable, it is OK to have a single shield. Connect both ends of the shielding to the ground. <b>And again, ground is what is connected to the ground and is not necessarily the negative voltage!</b></div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

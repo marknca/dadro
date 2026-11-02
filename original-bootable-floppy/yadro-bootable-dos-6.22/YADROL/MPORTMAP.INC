@@ -1,0 +1,25 @@
+// This file was created by: Setup for DRO:ddisp V0.5.
+Macro:internalDev0CH
+  senddevice("c2C")
+:EndM
+Macro:internalDev0DH
+  senddevice("c2D")
+:EndM
+Macro:internalDev1CH
+  senddevice("c3C")
+:EndM
+Macro:internalDev1DH
+  senddevice("c3D")
+:EndM
+Macro:internalDev2CH
+  senddevice("c1C")
+:EndM
+Macro:internalDev2DH
+  senddevice("c1D")
+:EndM
+Macro:internalDev3CH
+  senddevice("c0C")
+:EndM
+Macro:internalDev3DH
+  senddevice("c0D")
+:EndM

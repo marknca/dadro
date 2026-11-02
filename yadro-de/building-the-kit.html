@@ -1,0 +1,467 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: Building the DRO:int4 kit</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Description of how to build the kit for the DRO-interface.">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Chinese Scale, Digital Scale, Interface, Kit, YADRO, homebuilt DRO, DRO kit, digital readout">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="580" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="624" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>DRO:int4 Building the Kit</h2>
+						<p>The construction is as robust as possible (short circuit protections) and most easy to assemble (low parts count).</p>
+						<p>All boards come with solder stop mask, placement screening and are fully electrically tested at the factory.</p>
+						<p>Sections:</p>
+						<ul>
+							<li type="disc"><a href="#a1">Tools needed</a>
+							<li type="disc"><a href="#a2">populating the board</a>
+							<li type="disc"><a href="#a3">the first test</a>
+						</ul>
+					</div>
+					<center>
+						<p><img height="506" width="640" src="../pics/build-dro-int4-0.jpg"></p>
+					</center>
+					<div align="left">
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a1"></a>Tools needed:</h2>
+					</div>
+					<p>Because most people fear to build SMD-kits, the decision to build a conventional circuit was clear. This also reduces the skills and tools needed.</p>
+					<p>A good soldering iron (15&#133;30 Watts),<br>
+					some fine pliers to cut the wires,<br>
+					a multimeter (advisable)<br>
+					and some solder (I prefer 0.8mm diameter)</p>
+					<p>&#133; is enough.</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a2"></a>Populating the board:</h2>
+					<p>First some advice about ESD is necessary:<br>
+					The chips used in the interface are sensitive to electric discharge. That is the reason why the chips come on some conductive foam or in a protective container. Leave the chips there until it is time to solder them in. Discharge yourself by touching a radiator or some metal connected to earth. Do not wear clothes that tend to produce electrical charge (like synthetic fabric).</p>
+					<p>Those who know how to poulate a PCB won't go on reading. They do it the way they did many times before. Start with the low profile parts and work their way up. They will only start testing when they are finished. For those not so familiar, I have described a way that enables early testing.</p>
+					<p>Anyhow, here is a PDF with <a href="../media/int4-tp.pdf">testpoints and voltages (PDF)</a>, here <a href="../media/int4.pdf">the schematics (PDF)</a> and following the complete BOM:</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Capacitors</td>
+						</tr>
+						<tr>
+							<td>C1&#133;C5, C10, C12, C13, C15</td>
+							<td>100n</td>
+						</tr>
+						<tr>
+							<td>C8, C9</td>
+							<td>22p</td>
+						</tr>
+						<tr>
+							<td>C6</td>
+							<td>10&micro;</td>
+						</tr>
+						<tr>
+							<td>C11, C16</td>
+							<td>1000&micro;</td>
+						</tr>
+						<tr>
+							<td>C7</td>
+							<td>22&micro;</td>
+						</tr>
+						<tr>
+							<td>C14</td>
+							<td>1&micro;</td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Resistors</td>
+						</tr>
+						<tr>
+							<td>R1, R2, R5&#133;R12</td>
+							<td>100</td>
+						</tr>
+						<tr>
+							<td>R3</td>
+							<td>56</td>
+						</tr>
+						<tr>
+							<td>R4</td>
+							<td>220</td>
+						</tr>
+						<tr>
+							<td>R14, R15, 23</td>
+							<td>330</td>
+						</tr>
+						<tr>
+							<td>R16, R19..R22</td>
+							<td>3k9</td>
+						</tr>
+						<tr>
+							<td>R13, R17, R18</td>
+							<td>10k</td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Diodes</td>
+						</tr>
+						<tr>
+							<td>B1</td>
+							<td>B40C800</td>
+						</tr>
+						<tr>
+							<td>LED1</td>
+							<td>--</td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Integrated Circuits</td>
+						</tr>
+						<tr>
+							<td>IC1</td>
+							<td>MAX232N (TI) or MAX232ACPE (Maxim)</td>
+						</tr>
+						<tr>
+							<td>IC2</td>
+							<td>LM317LZ</td>
+						</tr>
+						<tr>
+							<td>IC3, IC4</td>
+							<td>LM2901N</td>
+						</tr>
+						<tr>
+							<td>IC5</td>
+							<td>CD4051N</td>
+						</tr>
+						<tr>
+							<td>IC6</td>
+							<td>Atmel ATtiny2313-20P</td>
+						</tr>
+						<tr>
+							<td>IC7</td>
+							<td>uA78S05</td>
+						</tr>
+						<tr>
+							<td>OK1, OK2</td>
+							<td>HCPL4502 or 6N136</td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Misc</td>
+						</tr>
+						<tr>
+							<td>Q1</td>
+							<td>20MHz X-tal</td>
+						</tr>
+						<tr>
+							<td>DC1</td>
+							<td>5V/5V DC/DC</td>
+						</tr>
+						<tr>
+							<td>J1</td>
+							<td>MTA02-100</td>
+						</tr>
+						<tr>
+							<td>J2</td>
+							<td>MTA03-100</td>
+						</tr>
+						<tr>
+							<td>X2</td>
+							<td>9 pin D-sub male</td>
+						</tr>
+						<tr>
+							<td>SV2&#133;SV5</td>
+							<td>6 pin header</td>
+						</tr>
+						<tr>
+							<td>SV1</td>
+							<td>10 pin DIL-header, male</td>
+						</tr>
+						<tr>
+							<td><i>not drawn</i></td>
+							<td>power supply 7 &#133; 9V AC, 200mA min.</td>
+						</tr>
+						<tr>
+							<td><i>not drawn</i></td>
+							<td>null-modem (x-over) cable 9 pin female/female</td>
+						</tr>
+					</table>
+					</p>
+					<p>The PCB is double sided with the holes trough-contacted. So soldering is only done on the bottom side.</p>
+					<p>Parts that are oriented (polarized) have a red background color in the partial BOMs following.</p>
+					<h3>Step 1</h3>
+					<p>We start by soldering in the resistors on the main part of the circuit. Refer to the BOM and the screening on the PCB to put the right resistors in the right place. Cut the wires that about 1mm is protruding from the bottom side.</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td>R1, R2, R5&#133;R12</td>
+							<td>100</td>
+						</tr>
+						<tr>
+							<td>R3</td>
+							<td>56</td>
+						</tr>
+						<tr>
+							<td>R4</td>
+							<td>220</td>
+						</tr>
+						<tr>
+							<td>R14, R23</td>
+							<td>330</td>
+						</tr>
+						<tr>
+							<td>R19..R22</td>
+							<td>3k9</td>
+						</tr>
+						<tr>
+							<td>R13, R17, R18</td>
+							<td>10k</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-1.jpg" target="_blank"><img height="155" width="200" src="../pics/build-dro-int4-1th.jpg" border="1"></a></p>
+					<h3>Step 2</h3>
+					<p>Next, the power supply of the main part is soldered in.</p>
+					<p>Electrolythic capacitors (C11, C16, C7 and C14) have a marking that is either &quot;-&quot; or &quot;+&quot;. Be shure to match the + on the part with the + on the PCB.<br>
+					B1 (bridge rectifier) has the orientation printed on. Not all bridge rectifiers do have the flat printed on the PCB. Levae a gap of about 5mm between PCB and the reftifier case to improve cooling.<br>
+					IC2 and IC7's orientation can be seen on the photo or the PCB. LED1 has one (of the two) wires that is shorter. This <b>shorter</b> leg goes into the lower hole (near R23).</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td>C13, C15</td>
+							<td>100n</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">C11, C16</td>
+							<td>1000&micro;</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">C7</td>
+							<td>22&micro;</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">C14</td>
+							<td>1&micro;</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">B1</td>
+							<td>B40C800</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC2</td>
+							<td>LM317LZ</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC7</td>
+							<td>uA78S05</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">LED1</td>
+							<td></td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-2.jpg" target="_blank"><img height="156" width="200" src="../pics/build-dro-int4-2th.jpg" border="1"></a></p>
+					<h3>Step 3</h3>
+					<p>By connecting the power connector to the PCB, we are ready for a first test: Depending on the kit you got, J1 is either a connector, or you use two wires. Orientation is not critical, as it is AC.</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td>J1</td>
+							<td>MTA02-100</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-4.jpg" target="_blank"><img height="114" width="250" src="../pics/build-dro-int4-4th.jpg" border="1"></a></p>
+					<p>Note, that on the photo above, more parts have already been soldered in.</p>
+					<p>By applying power to the board, the LED should light up (if not, chances are that it was soldered in the wrong way round). You can now check the voltages V1:1 &#133; V1:28. For a quick check, it is enough to test V1:1, V1:20, V1:23 and V1:26. See the <a href="../media/int4-tp.pdf">plan for location of test points</a>.</p>
+					<h3>Step 4</h3>
+					<p>We finish the power supply of the serial communications part and solder in the remaining resistors. The DC/DC-converter(DC1) has a dot on it's case. Match it with the dot on the PCB.<br>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Capacitors</td>
+						</tr>
+						<tr>
+							<td>C5</td>
+							<td>100n</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">C6</td>
+							<td>10&micro;</td>
+						</tr>
+						<tr>
+							<td>R15</td>
+							<td>330</td>
+						</tr>
+						<tr>
+							<td>R16</td>
+							<td>3k9</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">DC1</td>
+							<td>5V/5V DC/DC</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-3.jpg" target="_blank"><img height="154" width="200" src="../pics/build-dro-int4-3th.jpg" border="1"></a></p>
+					<p>You can now check the voltages on V2:1 &#133; V2:3. <b>Also check that the resistance between Ref1 and Ref2 is infinite (no connection)</b>.</p>
+					<h3>Step 5</h3>
+					<p>We continue by soldering in the remaining capacitors and the X-tal. Pay attention to use the propper (22pF) capacitors for C8 and C9.</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td colspan="2" bgcolor="#dcdcdc">Capacitors</td>
+						</tr>
+						<tr>
+							<td>C1&#133;C4, C10, C12</td>
+							<td>100n</td>
+						</tr>
+						<tr>
+							<td>C8, C9</td>
+							<td>22p</td>
+						</tr>
+						<tr>
+							<td>Q1</td>
+							<td>20MHz X-tal</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-5.jpg" target="_blank"><img height="157" width="200" src="../pics/build-dro-int4-5th.jpg" border="1"></a></p>
+					<h3>Step 6</h3>
+					<p>Next are the remaining connectors. If you don't have a connector for J2 (as on the photo), you might connect these cables at the very end.<br>
+					If you have a connector for J2, the tang is pointing outwards of the board (see screening of the board).<br>
+					Pin 6 of every SV2 &#133; SV5 has to be cut off.</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td>J2</td>
+							<td>MTA03-100</td>
+						</tr>
+						<tr>
+							<td>SV2&#133;SV5</td>
+							<td>6 pin header</td>
+						</tr>
+						<tr>
+							<td>SV1</td>
+							<td>10 pin DIL-header, male</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-6.jpg" target="_blank"><img height="109" width="250" src="../pics/build-dro-int4-6th.jpg" border="1"></a></p>
+					<h3>Step 7</h3>
+					<p>Nearing compleation, the ICs get at their place. Pay attention to be earthed. Pay attention to the parts orientation. ICs do have a notch or a dot in their case that has to match the printed notch on the PCB. Especially OK1 and OK2, despite sitting side by side, have different orientation. They are sitting back to back. :-)</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC1</td>
+							<td>MAX232N (TI) or MAX232ACPE (Maxim)</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC3, IC4</td>
+							<td>LM2901N</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC5</td>
+							<td>CD4051N</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">IC6</td>
+							<td>Atmel ATtiny2313-20P</td>
+						</tr>
+						<tr>
+							<td bgcolor="#fa8072">OK1, OK2</td>
+							<td>HCPL4502 or 6N136</td>
+						</tr>
+					</table>
+					</p>
+					<p><a href="../pics/build-dro-int4-8.jpg" target="_blank"><img height="156" width="200" src="../pics/build-dro-int4-8th.jpg" border="1"></a></p>
+					<h3>Step 8</h3>
+					<p>If you have no cable set, it is now time to finish the kit by connecting the serial connector. J2 has 3 solder pads (1 to 3). Pad 1 is marked with a &quot;1&quot; that goes to pin 2 of a 9 pin D-sub (male) connector J2:2 goes to pin 3 and J2:3 goes to pin 5 (ground) of the D-sub.</p>
+					<p><a href="../pics/build-dro-int4-7.jpg" target="_blank"><img height="200" width="107" src="../pics/build-dro-int4-7th.jpg" border="1"></a></p>
+					<p>Before connecting the scales, you should double check the voltages at V1:9, V1:13, V1:16 and V1:20. It should be 1.55V (+/- 0.1V)</p>
+					<p><img height="21" width="298" src="../pics/line.gif"></p>
+					<h2><a name="a3"></a>The first test:</h2>
+					<p>You now can proceed with the <a href="setup.html">setup</a>.</p>
+					<p>If the setup does not work:</p>
+					<p><b>First of all, check your soldering!</b><br>
+					Further information can be found <a href="scale-debugging.html">here for testing the interface and the scales</a>.</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

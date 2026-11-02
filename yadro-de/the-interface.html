@@ -1,0 +1,90 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: What is the DRO-interface DRO:int4</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Short description for the 4-axis DRO-interface to be connected to PCs.">
+		<meta name="keywords" content="Digital Read-Out, DRO, DIY, interface, connect, Digital Scale, Chinese Scale, YADRO, cheap chinese scale, homebuilt digital readout, lathe, mill, mini mill, knee mill, benchtop lathe, horizontal mill, vertical mill, digital readout">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="991" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="553" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>DRO:int4, the Interface for a DRO:</h2>
+						<p>The interface is called DRO:int4. That interface has four channels that can be connected to up to 4 digital scales or digital calipers. There are quite some protocols that are used by the scales. DRO:int4 can be connected to &quot;those cheap Chinese scales&quot;. But the interface can also be connected to scales that have a quadrature encoder signal. Basically, the right scales can be identified by these details:</p>
+						<ul>
+							<li type="disc">They are cheap. Calipers start at US$ 10, scales start at US$30 for 150mm length, 100US$ for 500mm length.
+							<li type="disc">They all use 1.5V batteries (SR44 or LR44)
+							<li type="disc">They do have a connector with 4 pins
+							<li type="disc">The manual often claims that they do have a serial protocol. Sometimes it is even called RS-232 (but that is nonsense).
+						</ul>
+						<p>DRO:int4 does not support Mitutoyo's DigiMatic&reg;-protocol. But it can be connected, with the help of an adapter, to quadrature encoders that are often found in glass scales.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>The components:</h2>
+						<p>The interface is built around a micro-controller running at 20 MHz. He is the proxy between the scales and the PC. He can store data, read the scales, switch modes of the scales, receive commands from the PC and send back data to the PC either by request or automatically when a scale is moved.<br>
+						The communication with the PC is done over a opto-isolated serial interface (RS-232, aka V24). The communication speed is 19200 Baud. Also, the micro-controller is communicating with the scales. As voltage-levels do not fit, they have to be adjusted by amplifiers. They do get their reference-voltage through a voltage regulator that also supplies 1.55V to the scales connected. That voltage regulator is short circuit protected and can output up to 100mA, by far enough for the scales (they need only about 10 micro-Ampere).</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Communication with the scales:</h2>
+						<p>The interface has four connectors that get connected to the digital scales. These connectors supply power to the scales (you don't have to invest in batteries any more) and have clock and data-lines that do the communication between the interface and the scales. The interfaces micro-controller can switch the clock and data lines of the scales and so switch modes (set zero, get a special fast mode). It works the same as if you would press buttons on the scales. So you can but the scales into some protection shielding as you never will have to either see or touch the scales display.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Communication with the PC:</h2>
+						<p>The interface has an opto-isolated serial interface trough which the PC can communicate with the interface. It is opto-isolated, because shops generally are a very noisy electrical environment. Also, the Chinese scales unfortunately have their positive supply connected to their chassis. Communication is at 19200 Baud, enough to communicate with up to four scales at their maximum data rate. The communication protocol is kept very simple to keep overhead down.<br>
+						The micro-controller also helps you in testing your digital scales should you have problems connecting them. You can communicate with the interface with a terminal program (console) and ask the interface to detect and identify the scales connected.</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

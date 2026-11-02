@@ -1,0 +1,113 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: The DRO:ddisp DOS-software in Detail</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Details of using the software and macros for the DRO-interface.">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Digital Scales, Interface, Display Software, YADRO">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="892" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="553" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>DRO:ddisp, the DOS-software for the DRO in Detail</h2>
+						<p>Normally, there is no need to read this part in detail. It exists more or less for reference, or for those interested in the inner workings or those who want to code their own macros.</p>
+						<p>DRO:ddisp is more an engine than a classical hard coded program that does just one task. When I planned and designed the whole DRO, I soon saw, that I can't foresee the many user's configurations and needs. The obvious and very interesting way (for me), was to have a display engine and an own programming language that is the glue logic between the scales values and the displayed values rsp. behavior of the display.</p>
+						<p>The DOS-side (or client-side) of the DRO consists mainly of the following parts:</p>
+						<ul>
+							<li type="disc"><a href="#a1">Raw communication with DRO:int4</a>
+							<li type="disc"><a href="#a2">Display engine</a>
+							<li type="disc"><a href="#a3">Interpreter</a>
+						</ul>
+						<p>The concept follows (not strictly) the MVC-concept (Model View Container).</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Overview:</h2>
+					</div>
+					<p>YADRO'S DRO comes with it's own programming language. That language is a (bit) C-like language, that I call YPL (for YADRO-Programming-Language or Yet Another Digital Read-Out Programming Language). The code that drives the display consists of a few code snippets or macros that interact. There is a big variable pool every piece of code can access. There are some special function calls that interact with the display. The display itself is quite stupid and knows nothing about scaling, offset etc.</p>
+					<p>Here is a sketch:</p>
+					<center>
+						<p><img height="335" width="498" src="../pics/yadro-eng.gif"></p>
+					</center>
+					<p>The cloud named var-pool is the storage that keeps all the variables. Every part of the program or the macros can access and modify them.<br>
+					The box &quot;digital interface&quot; on the left is the interface that connects to your digital scales.<br>
+					The box &quot;display&quot; is the core program that puts all parts together and mainly does the display related stuff.<br>
+					The 3 gray boxes MacX, MacY, MacZ are special macros (in reality, they don't even have a real name and are no macros, but expressions) that process the raw numbers coming from the digital interface.<br>
+					The dashed boxes on the right with MacA&#133;MacD are the user accessible macros. There is virtually no limit on how many you have. The macros Mac1, Mac2, &#133; are internal macros, that act somehow like subprograms. Macros can interact among them and control the display or the digital interface too.</p>
+					<p>In the current version, I made an extension not reflected in this sketch. The macros MacX, MacY and MacZ can be further extended at runtime by macros that are arranged in a stack. Macros can add and remove pre and post-display macros that &quot;catch&quot; and modify the variables to be displayed right before and after displaying. These macros go in-between MacX(Y, Z) and the display.</p>
+					<p>YADRO does the following:</p>
+					<ol>
+						<li type="1">It triggers reading all (connected) devices from the digital interface. The values read are put into the variables Dev0&#133;Dev4.
+						<li type="1">It then calls the special macros named MacX&#133;MacZ (again, they have no names, you bind macros to axis) that does the scaling, translation, etc. and displays them on the screen
+						<li type="1">It then puts back the values displayed into the variables Disp1&#133;Disp3. This sounds a bit weird, but for example Dev0 will nearly never have the same value as Disp0, despite belonging to the X-axis.
+						<li type="1">Pre- and Post-display-macros are executed
+						<li type="1">Values of the vars Disp1&#133;Disp4 are displayed
+						<li type="1">Then YADRO checks to see if there is some user-input. If so, it executes the macro (or other stuff you asked for)
+						<li type="1">Then the loops starts all over again at 1.
+					</ol>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a1"></a>Raw communication with DRO:int4</h2>
+					<p>The communication part of DRO:ddisp does all the reading and writing to the DRO:int4. It simply reads the values from the interface and converts the hexadecimal representation to numerical data. I does not convert to &quot;real&quot; numbers, but only converts them to some unscaled integer value. As there are two protocols, the communication part has to know (and knows) how the raw values are represented and how the have to be converted. The communication part also does handle time-outs and handshaking with the interface.</p>
+					<p><img height="21" width="298" src="../pics/line.gif"></p>
+					<h2><a name="a2"></a>Display Engine</h2>
+					<p>The display engine is the &quot;glue logic&quot; that keeps the parts together. It knows where to display values for the axes, it knows how to get values from the interface, it knows how to handle key strokes, it knows how to execute user invoked macros and it knows what macros to call to get the converted and scaled values for the axes. But it knows nothing what a mill or a lathe is and how these values have to be converted. This is all done by the macros.</p>
+					<p><img height="21" width="298" src="../pics/line.gif"></p>
+					<h2><a name="a3"></a>Interpreter</h2>
+					<p>The interpreter is the part that executes the macros either by user-selection or by request of the display engine. The language is a bit C-like. I tried to keep it simple and only added what is right needed to fulfill the needs of a DRO. Should there be more requirements, I can extend the language. The word &quot;interpreter&quot; might trigger a picture of some slow program running, but that is wrong. The code that is executed at a high rate can be kept very simple and the parts that take a lot of CPU-time are not interpreted.</p>
+					<p>The DRO:ddisp interpreter executes about 100000 instructions per second on a 3GHz AMD64.</td>
+			</tr>
+		</table>
+	</body>
+
+</html>
