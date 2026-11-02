@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The DADRO user guide: install, connect a mill or lathe, establish datums, remember points, lay out holes, and diagnose readout problems.">
+<title>DADRO — User guide</title>
+<style>
+:root{color-scheme:light dark;font:16px/1.6 system-ui,sans-serif;--bg:light-dark(#f4f6f8,#11171d);--panel:light-dark(#fff,#1c252e);--ink:light-dark(#172b3c,#e7edf3);--muted:light-dark(#486176,#aebfcd);--line:light-dark(#cbd6df,#425363);--accent:light-dark(#075aa3,#83c6ff)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}main{max-width:1180px;margin:auto;padding:3rem 1.5rem 5rem}h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0 1.5rem}h2{font-size:1.8rem;margin-top:3rem;scroll-margin-top:1rem}h3{margin-top:2rem}a{color:var(--accent)}p{max-width:95ch}.eyebrow,small,.muted,figcaption{color:var(--muted)}.eyebrow{letter-spacing:.12em;text-transform:uppercase;font-size:.8rem}.lead{font-size:1.15rem}.contents{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem 1.3rem;padding:1.2rem 0;border-block:1px solid var(--line)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}.card,.note,.lab{background:var(--panel);padding:1.2rem;border:1px solid var(--line);border-radius:12px}.card h3{margin:0 0 .6rem}.card p:last-child{margin-bottom:0}.note{border-left:4px solid var(--accent);margin:1.3rem 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;background:var(--panel);margin:1rem 0}th,td{text-align:left;padding:.8rem;vertical-align:top;border-bottom:1px solid var(--line)}th{font-size:.85rem;color:var(--muted)}td:first-child{min-width:140px}code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{font-size:.92em;overflow-wrap:anywhere}kbd{white-space:nowrap;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:.1em .35em}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.85rem;padding:1rem;background:var(--bg);border:1px solid var(--line);border-radius:6px}summary{cursor:pointer;color:var(--accent);font-weight:600;padding:.6rem 0}details{margin:.5rem 0;border-bottom:1px solid var(--line)}details p{margin-top:.3rem}figure{margin:1.5rem 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px}figcaption{font-size:.85rem;margin-top:.65rem}.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:end}.controls label{display:grid;gap:.3rem;font-weight:600;flex:1 1 145px}input,select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:.55rem;min-height:44px}input,select{min-width:0;width:100%}button{cursor:pointer}button:hover{border-color:var(--accent)}button:disabled{cursor:default;opacity:.55}fieldset{min-width:0;margin:0;border:0;padding:0}legend{font-weight:700;font-size:1.15rem;margin-bottom:1rem}.actions{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:1rem}.result{display:block;font:600 clamp(1.2rem,4vw,2rem)/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;margin:1rem 0;overflow-wrap:anywhere}.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}.lab svg{display:block;width:100%;max-height:340px;color:var(--accent)}.lab svg text{fill:var(--ink);font-size:13px}.lab svg .guide{stroke:var(--line);fill:none}.lab svg .ring{stroke:currentColor;fill:none}.lab svg .selected{fill:currentColor;stroke:currentColor}.lab svg .other{fill:var(--panel);stroke:currentColor}.error{color:var(--muted);min-height:1.6em}.back{font-size:.85rem}.skip{position:absolute;left:1rem;top:-5rem;padding:.6rem 1rem;background:var(--panel);z-index:1}.skip:focus{top:1rem}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}li{margin:.5rem 0}section{border-bottom:1px solid var(--line);padding-bottom:1.5rem}footer{margin-top:3rem;font-size:.9rem}dd{margin-bottom:.7rem}dt{font-weight:700}[hidden]{display:none!important}
+@media(max-width:650px){main{padding:1.5rem .8rem}.lab-grid{grid-template-columns:1fr}td,th{padding:.55rem}.card,.lab{padding:1rem}.contents{grid-template-columns:1fr 1fr;gap:.8rem;font-size:.9rem}.controls label{flex-basis:100%}}
+@media print{.contents,.lab,.back,.skip,.screen-only{display:none}body{background:white;color:black}main{max-width:none;padding:0;font-size:10pt}h1{font-size:30pt}h2{font-size:20pt}h2,h3{break-after:avoid}tr,figure,.note{break-inside:avoid}details::details-content{display:block;content-visibility:visible}details>*{display:block}a{color:inherit;text-decoration:underline}.card,.note,table,pre{background:white;border-color:#aaa}figcaption,.muted,.eyebrow,th{color:#333}figure img{max-height:15cm;object-fit:contain}section{border:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#quick-start">Skip to quick start</a>
+<main id="top">
+<header>
+<div class="eyebrow">DADRO / User guide / 2 November 2026</div>
+<h1>Your machine.<br>A clear reference for every move.</h1>
+<p class="lead">Use DADRO to read a mill or lathe’s scales, establish a working zero, compare positions, and step through an XY hole circle. This guide covers the current Python/Qt application launched by <code>src/app.py</code>.</p>
+<p>DADRO is a digital readout for a YADRO DRO:int4 controller. You move the machine yourself. Its diagrams and targets help you interpret position; they do not drive motors, detect a cut, or confirm that a hole has been drilled.</p>
+<div class="cards">
+<article class="card"><h3>First time here?</h3><p><a href="#quick-start">Try the five-minute walkthrough</a>, then <a href="#setup">choose and connect your machine</a>.</p></article>
+<article class="card"><h3>At the machine?</h3><p>Jump to <a href="#datums">zeros and ABS/REL</a>, <a href="#points">Remember point</a>, or <a href="#holes">Lay out holes</a>.</p></article>
+<article class="card"><h3>Something unexpected?</h3><p>Check <a href="#persistence">what survives a reconnect</a> or use the <a href="#troubleshooting">troubleshooting table</a>.</p></article>
+</div>
+<p class="muted screen-only">Use your browser’s Find command to search this guide. It works offline when kept with the repository’s <code>docs/</code> folder. Your browser’s Print command produces a reading copy; worked examples accompany both interactive lessons.</p>
+</header>
+<h2 id="contents">In this guide</h2>
+<nav class="contents" aria-label="Contents">
+<a href="#quick-start">01 · Quick start</a><a href="#installation">02 · Install and launch</a>
+<a href="#setup">03 · Machine setup</a><a href="#readout">04 · Know the readout</a>
+<a href="#datums">05 · Zeros and ABS/REL</a><a href="#coordinates">06 · Quill and lathe coordinates</a>
+<a href="#points">07 · Remember point and Origin</a><a href="#offsets">08 · Toolhead offsets</a>
+<a href="#holes">09 · Lay out holes</a><a href="#tool-path">10 · Tool path</a>
+<a href="#fast-mode">11 · Connection and Fast mode</a><a href="#keyboard">12 · Keyboard controls</a>
+<a href="#practice">13 · Practice without hardware</a><a href="#persistence">14 · Saving and restarting</a>
+<a href="#troubleshooting">15 · Troubleshooting</a><a href="#reference">16 · Reference and glossary</a>
+</nav>
+
+<section aria-labelledby="quick-start">
+<h2 id="quick-start">01 · Quick start</h2>
+<p>For a first look, launch <code>python3 -B src/app.py --demo</code> from the repository or release directory. If dependencies are not installed, follow <a href="#installation">Install and launch</a> first. No controller is needed.</p>
+<p class="note"><strong>Already have saved points?</strong> Starting the XYZ demo applies the default three-axis mill setup. If that differs from your current scale setup, ordinary points clear; if the machine profile differs, Origin clears too. The saved hardware configuration is retained, but points are not isolated in a separate demo workspace. Use this page’s lessons to practice without changing app data.</p>
+<ol>
+<li><strong>Watch X, Y, and Z.</strong> The status bar identifies simulated data. All three axes travel between 0 and 30 mm at different speeds. New windows show inches.</li>
+<li><strong>Select mm.</strong> The unit toggle changes all readouts. The demonstration’s physical travel stays the same.</li>
+<li><strong>Try a relative zero.</strong> Set X to <strong>REL</strong>, then press its <strong>0</strong>. X now shows travel since that instant. Switch X to <strong>ABS</strong> to return to its main coordinate.</li>
+<li><strong>Save a reference.</strong> Open <strong>Remember point</strong>, click <strong>Remember this point</strong>, then select its card. A signed distance appears beneath each live reading. Choose <strong>Hide distances</strong> when finished.</li>
+<li><strong>Explore a circle.</strong> Open <strong>Lay out holes</strong>, enter a positive diameter, and inspect the preview. Choose <strong>Start circle</strong> to see target guidance. The demo continues its own motion; it does not travel to the targets. Choose <strong>Finish circle</strong> to restore your X/Y modes and offsets.</li>
+<li><strong>Stop.</strong> <strong>Disconnect</strong> stops the demonstration and leaves the last readings visible. <strong>Quit</strong> closes the app after acquisition stops.</li>
+</ol>
+<p class="note"><strong>Before using physical scales:</strong> verify the selected profile, channel mapping, input directions, units, and any lathe geometry against known travel. Establish the datum after connecting. A saved configuration or a saved Origin does not restore the machine’s physical reference after a scale reset.</p>
+<p>For everyday work: connect → check the status and units → establish ABS zeros → use REL for incremental measurements → verify your reference again after any reconnect or mode-changing operation.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="installation">
+<h2 id="installation">02 · Install and launch</h2>
+<p>You need Python 3, a working graphical desktop, <strong>PyQt6</strong>, and <strong>pyserial</strong>. Hardware use also needs a compatible DRO:int4 interface, fitted scales, and access to its serial port. The built-in demo needs no hardware.</p>
+<h3>From the repository or source release</h3>
+<p>The <code>release/</code> directory is a movable source distribution. Copy the entire directory, keeping <code>src/</code>, <code>assets/</code>, and <code>REQUIREMENTS.txt</code> together. It does not include Python or installed dependencies. These commands work from either the repository root or that release directory:</p>
+<pre>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r REQUIREMENTS.txt
+python -B src/app.py</pre>
+<p>On Windows PowerShell, create the environment with <code>py -3 -m venv .venv</code>. You can use its interpreter directly without activating it:</p>
+<pre>.\.venv\Scripts\python.exe -m pip install -r REQUIREMENTS.txt
+.\.venv\Scripts\python.exe -B src/app.py</pre>
+<p>The package is named <strong>pyserial</strong>, although Python imports it as <code>serial</code>. The unrelated package named <code>serial</code> is not a substitute.</p>
+<h3>Raspberry Pi OS</h3>
+<p>For the documented Bookworm-or-newer setup, use the distro packages and system Python in a graphical desktop session:</p>
+<pre>sudo apt update
+sudo apt install python3-pyqt6 python3-serial qt6-wayland
+/usr/bin/python3 -B src/app.py</pre>
+<p>Keep the Qt runtime and its plugins from the same installation. If you use a virtual environment instead, read the <a href="../raspberry-pi.html">Pi installation and Qt troubleshooting notes</a> before mixing it with system plugins.</p>
+<h3>Launch options</h3>
+<div class="table-wrap"><table><caption>Commands run from the repository or release directory</caption><thead><tr><th scope="col">Command</th><th scope="col">Purpose</th></tr></thead><tbody>
+<tr><td><code>python3 -B src/app.py</code></td><td>Configure on first run; otherwise restore the saved setup and connect.</td></tr>
+<tr><td><code>python3 -B src/app.py --demo</code></td><td>Start automatic XYZ motion without hardware. The saved machine configuration stays intact, but saved-point clearing rules still apply to the demo’s setup change.</td></tr>
+<tr><td><code>python3 -B src/app.py --port /dev/ttyUSB0</code></td><td>Override the saved interface for this launch. Use your actual device, such as a macOS <code>/dev/cu.…</code> path or Windows <code>COM3</code>.</td></tr>
+<tr><td><code>python3 -B src/app.py --baud 19200</code></td><td>Choose the serial rate. The default controller connection is 19200 baud, 8 data bits, no parity, 1 stop bit, and no flow control. Changing this option does not reconfigure the controller.</td></tr>
+<tr><td><code>python3 -B src/app.py --help</code></td><td>Show supported launch options and exit.</td></tr>
+<tr><td><code>python3 -m serial.tools.list_ports -v</code></td><td>List available serial interfaces using the same Python environment.</td></tr>
+</tbody></table></div>
+<p><code>src/xyz_monitor.py</code> also launches the current app. The old Ruby work and DOS executables are separate historical implementations. The manual simulator is supplied in the full repository, not in <code>release/</code>. See <a href="../release.html">release packaging details</a>.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="setup">
+<h2 id="setup">03 · Choose and connect your machine</h2>
+<p>On first launch, choose the card that matches your <em>fitted scales</em>, then select <strong>Next: scales →</strong>. Selecting a card alone does not connect. Solid arrows identify measured travel; dashed arrows identify movement without a scale.</p>
+<div class="table-wrap"><table><caption>Choose by the movements you actually measure</caption><thead><tr><th scope="col">Machine card</th><th scope="col">Required scales</th><th scope="col">Readouts and use</th></tr></thead><tbody>
+<tr><td>Mill · Table travel</td><td>X, Y</td><td>Two table movements. XY hole-circle guidance is available.</td></tr>
+<tr><td>Mill · Table + vertical</td><td>X, Y, Z</td><td>One vertical scale, including an installation whose only vertical scale is on the quill.</td></tr>
+<tr><td>Mill · Vertical + quill</td><td>X, Y, Z, Q</td><td>Separate main vertical and quill scales combine into one Z readout.</td></tr>
+<tr><td>Lathe · Cross slide + carriage</td><td>X, Z1</td><td>Cross-slide radius or diameter plus carriage travel. Milling functions are hidden.</td></tr>
+<tr><td>Lathe · With compound</td><td>X, Z1, Z2</td><td>A separately measured compound slide contributes to X and longitudinal travel. Display Z1/Z2 separately or as summed Z.</td></tr>
+</tbody></table></div>
+<p>A machine having a quill does not automatically require four scales. Choose <strong>Vertical + quill</strong> only when both vertical movements have separate scales.</p>
+<h3>Fine tune your setup</h3>
+<ol>
+<li><strong>Choose the Interface.</strong> Select a detected serial device or paste its full path/COM name. The field is editable. Paste paths containing <code>/</code>, because that key is reserved for leaving keyboard editing mode.</li>
+<li><strong>Map each scale.</strong> Assign a distinct controller channel from <strong>0–3</strong> to each required movement. Follow the actual wiring; default order is only a starting point.</li>
+<li><strong>Choose each input Direction.</strong> <strong>+</strong> keeps the scale’s incoming sign; <strong>−</strong> reverses it before coordinates are calculated. This is separate from the direction control beside the live readout.</li>
+<li><strong>Set lathe geometry if shown.</strong> Choose X diameter or radius, compound angle where applicable, and separate or summed Z. See <a href="#coordinates">coordinate examples</a>.</li>
+<li><strong>Set Edge finding toolhead width.</strong> Enter the full width/diameter of the tool used for point offsets. The default is <strong>0.200 in / 5.080 mm</strong>. Its own in/mm toggle is independent of readout units. The ½ badge previews the correction.</li>
+<li><strong>Select Save &amp; connect.</strong> The app saves valid settings first, opens the readout, and detects the scales. Watch the status bar for progress or an error.</li>
+</ol>
+<figure><a href="../toolhead-setup.png"><img src="../toolhead-setup.png" width="2560" height="1440" loading="lazy" alt="Machine setup showing a selected mill profile, serial interface, channel and direction rows, and toolhead width with a half-width preview."></a><figcaption>The setup screen. Open the image for a closer view. Your channel assignments and available geometry controls depend on the selected profile.</figcaption></figure>
+<p><strong>Save &amp; connect</strong> requires a nonempty interface, distinct channels, a valid compound angle (−180° to +180°), and a finite toolhead width greater than zero and no more than 1,000 mm. An explanation appears above the actions when a field is invalid. A missing controller does not prevent valid settings from being saved.</p>
+<h3>Change a saved setup</h3>
+<p>Use the top-right <strong>⚙ Settings</strong> control. It opens the scale settings; <strong>← Machine profile</strong> returns to the cards. Back/Next retains your draft. <strong>Cancel</strong> from either step discards the draft and preserves the active connection, datums, and any hole circle. First-run setup has no Cancel route to an unconfigured readout; the demo remains available.</p>
+<p class="note"><strong>Saving reconnects, even for a toolhead-only edit.</strong> It ends an active circle and clears software zeros. Changing scale settings also affects saved points; consult the <a href="#persistence">persistence table</a> before applying a change. A failed settings write keeps your draft visible and leaves the active setup in place.</p>
+<p>Verify each physical motion after connecting: move one slide a known amount, check the matching axis and sign, and check combined inputs independently. Then establish your working datum. The app cannot infer correct wiring, mechanical angle, or calibration from successful scale detection.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="readout">
+<h2 id="readout">04 · Know the readout</h2>
+<figure><a href="../tool-path.png"><img src="../tool-path.png" width="3840" height="2160" loading="lazy" alt="DADRO readout with large X, Y, and Z values on the left, per-axis controls, main action buttons at upper right, tool path below, and connection status along the bottom."></a><figcaption>Current readout layout with illustrative simulated coordinates. At smaller sizes the actions reflow; opening a drawer makes room beside the axes.</figcaption></figure>
+<div class="table-wrap"><table><thead><tr><th scope="col">Area or control</th><th scope="col">How to use it</th></tr></thead><tbody>
+<tr><td>Large axis values</td><td>Position in the selected units, direction, and ABS/REL mode. A dash means a required reading is unavailable. A positive number has a blank sign column; negative values have a minus.</td></tr>
+<tr><td>Axis + / −</td><td>Select the final displayed direction for that axis. It preserves zero offsets and affects both ABS and REL.</td></tr>
+<tr><td>Axis ABS / REL</td><td>Choose the main datum or an incremental offset from it. Each axis can use a different mode.</td></tr>
+<tr><td>Axis 0</td><td>Make the current displayed position zero in that axis’s selected mode. Unavailable readings cannot be zeroed.</td></tr>
+<tr><td>.0 ← / .00 →</td><td>Show fewer/more decimal places, from 1 to 4. Preferences are saved separately for each axis and unit. More digits do not increase physical accuracy.</td></tr>
+<tr><td>mm / in</td><td>Change all readouts’ units. A new window starts in inches. Initial precision is four places in inches and three in mm unless you saved a different preference.</td></tr>
+<tr><td>Clear zero</td><td>Clear the selected ABS/REL offset on every axis. It does not zero the current position or clear the other mode’s offset.</td></tr>
+<tr><td>Lay out holes / Remember point</td><td>Open the corresponding function drawer at the right. The title, close control, and primary actions stay accessible while the body scrolls.</td></tr>
+<tr><td>Connect / Disconnect</td><td>Start or stop acquisition. While connecting, the control becomes Cancel; while stopping, it shows Stopping….</td></tr>
+<tr><td>Settings / Quit</td><td>Edit the machine configuration or close the app. Quit lets the acquisition worker finish stopping.</td></tr>
+<tr><td>Status bar</td><td>Read connection progress, errors, simulated-data identification, units, sample/invalid counts, datum reminders, and keyboard-mode hints. Hover for additional error detail where provided.</td></tr>
+</tbody></table></div>
+<p>A function’s <strong>Visualizer</strong> overlays the readings and temporarily hides the main action column. Acquisition continues. Close the visualizer with its <strong>×</strong> or toggle to recover Units, Connect, and Settings. Closing the visualizer and closing its function drawer have different effects during a hole circle.</p>
+<p>The default window requests 1920 × 1080 logical pixels; the desktop may constrain it to fit. The minimum size is 850 × 600. At narrow sizes, forms and point lists scroll, and the tool-path panel may hide while its sampling continues.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="datums">
+<h2 id="datums">05 · Establish zeros and measure in ABS/REL</h2>
+<p><strong>ABS</strong> is your main software datum. <strong>REL</strong> subtracts an additional, independent offset from ABS. Neither is a hardware reset. Switching modes recalls an offset; it does not capture a new zero.</p>
+<div class="cards">
+<article class="card"><h3>Set a main datum</h3><p>Position at your reference, select ABS on the required axis, then press its 0. Repeat for the other axes. The app now measures from that reference.</p></article>
+<article class="card"><h3>Measure an increment</h3><p>Select REL, press 0 at the start, and move. Read the signed travel. Return to ABS to see the main coordinate again.</p></article>
+<article class="card"><h3>Remove an offset</h3><p>Choose the mode to clear, then Clear zero. In REL this returns to the ABS coordinate; in ABS it returns to the underlying machine coordinate.</p></article>
+</div>
+<p>Changing an ABS zero also shifts REL coordinates because REL is based on ABS; the stored REL offset remains. Clearing ABS does not secretly clear REL. To clear both, select and clear each mode. <strong>Clear zero affects all axes’ currently selected modes</strong>, so check mixed modes before using it.</p>
+<h3>Try the same position in different frames</h3>
+<p>This lesson represents one mill axis. It changes only this page and resets on reload. The position field always uses millimetres so you can distinguish physical motion from display-unit changes.</p>
+<div class="lab">
+<fieldset id="datum-lab" disabled>
+<legend>Practice a software zero</legend>
+<div class="controls">
+<label for="datum-position">Machine X (mm)<input id="datum-position" type="number" min="-10000000" max="10000000" step="any" value="25.4"></label>
+<label for="datum-mode">Coordinate mode<select id="datum-mode"><option value="abs">ABS</option><option value="rel">REL</option></select></label>
+<label for="datum-direction">Display direction<select id="datum-direction"><option value="1">+</option><option value="-1">−</option></select></label>
+<label for="datum-units">Display units<select id="datum-units"><option value="mm">mm</option><option value="in">in</option></select></label>
+</div>
+<output class="result" id="datum-result" aria-live="polite">25.400 mm</output>
+<p id="datum-state">ABS datum: 0.000 mm · REL offset: 0.000 mm</p>
+<div class="actions"><button id="datum-zero" type="button">Zero X</button><button id="datum-clear" type="button">Clear selected zero</button><button id="datum-reset" type="button">Reset lesson</button></div>
+<p class="error" id="datum-error" aria-live="polite"></p>
+</fieldset>
+</div>
+<noscript><p class="note">JavaScript is off. The lessons are disabled; the worked examples below provide the same instructions and results. The rest of this guide remains available.</p></noscript>
+<div class="table-wrap"><table><caption>Worked example: positive mill X, initial ABS datum zero</caption><thead><tr><th scope="col">Action</th><th scope="col">X shows</th><th scope="col">Why</th></tr></thead><tbody>
+<tr><td>Begin at 25.4 mm in ABS</td><td>25.400 mm</td><td>No software offsets yet.</td></tr>
+<tr><td>Select REL, then Zero X</td><td>0.000 mm</td><td>REL records a 25.4 mm offset; ABS stays unchanged.</td></tr>
+<tr><td>Move to 50.8 mm</td><td>25.400 mm</td><td>Travel since the relative zero.</td></tr>
+<tr><td>Change to inches</td><td>1.0000 in</td><td>Physical position and offsets are unchanged.</td></tr>
+<tr><td>Select ABS</td><td>2.0000 in</td><td>Return to the main coordinate.</td></tr>
+<tr><td>Select REL, then − direction</td><td>−1.0000 in</td><td>The relative distance reverses sign.</td></tr>
+<tr><td>Clear the selected REL zero</td><td>−2.0000 in</td><td>Remove the incremental offset, preserving direction.</td></tr>
+</tbody></table></div>
+<p>Axis controls can act on the last displayed sample while disconnected. That is a retained position, not a live measurement. Starting acquisition again clears both zero sets. During an active hole circle, X/Y direction, mode, zero controls, and Clear zero are disabled to preserve the circle’s reference; Z and units remain available.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="coordinates">
+<h2 id="coordinates">06 · Quill and lathe coordinates</h2>
+<p>Input directions in Settings are applied <em>before</em> machine geometry. The readout’s +/− control reverses the final coordinate <em>after</em> software offsets. Use input directions to make combined motions agree physically; use display direction to choose how you read an axis.</p>
+<h3>Mill with separate vertical and quill scales</h3>
+<p><strong>Z = directed main vertical + directed quill.</strong> With main vertical +6 mm and quill +2 mm, combined Z is +8 mm. If the quill’s input direction is reversed, the same incoming readings yield +4 mm. If either vertical scale is unavailable, combined Z shows a dash; the app does not assume the missing contribution is zero.</p>
+<h3>Lathe radius versus diameter</h3>
+<p>In radius mode, X reports cross-slide travel after geometry and zeros. In diameter mode, X is doubled and labeled <strong>Ø X</strong>. A 1 mm radial move changes a diameter reading by 2 mm. Saved-point X distances and offset previews follow that display convention too.</p>
+<h3>Lathe with compound</h3>
+<p>The configured angle is measured from positive Z. At a positive angle, positive compound travel reduces radial X. Given directed scale values:</p>
+<pre>radial X = cross slide − sin(angle) × compound
+Z2       = cos(angle) × compound
+summed Z = carriage + Z2</pre>
+<p>For cross slide 10 mm, carriage 20 mm, compound 4 mm, and angle 30°, radial X is <strong>8 mm</strong>, projected Z2 is approximately <strong>3.464 mm</strong>, diameter X is <strong>16 mm</strong>, and summed Z is approximately <strong>23.464 mm</strong>, before software zeros. Separate mode shows X, Z1 (carriage), and projected Z2; summed mode shows X and combined Z.</p>
+<p>A missing compound reading blanks dependent X and Z2 coordinates, and summed Z if selected. Independent coordinates can remain available. Verify the entered angle and sign against a known movement on the machine before relying on compensated coordinates.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="points">
+<h2 id="points">07 · Remember points and keep an Origin</h2>
+<p>Use saved points when you want to return to a physical position or compare travel without changing the main readout’s zeros.</p>
+<ol>
+<li>Connect or start a demo, then open <strong>Remember point</strong>.</li>
+<li>Choose <strong>Remember this point</strong>. Its control becomes a numbered card, with the displayed coordinates recorded beneath the name. A fresh capture control appears below it.</li>
+<li>Select the point card. Each axis gains a <strong>Point n · Δ</strong> overlay showing <strong>current position − saved position</strong>.</li>
+<li>Move and compare the signed distances. For a point at X = 10 mm, X = 15 mm gives +5 mm; X = 8 mm gives −2 mm in positive direction.</li>
+<li>Select the same card again or choose <strong>Hide distances</strong> to remove the overlays. Closing the drawer retains the selection and distances.</li>
+</ol>
+<p>Capture requires a ready live connection and finite readings for every displayed axis. Two-axis profiles require only their two displayed axes. Selecting, inspecting, offsetting, and deleting existing points also works while disconnected, but live distance overlays show dashes until valid readings resume. Capturing a point does not automatically select it.</p>
+<p>Cards keep the coordinate snapshot from capture (or the latest offset application). Changing ABS/REL or zero moves the large coordinate, but leaves the saved physical reference and its distance intact. Switching units converts the card; reversing direction changes the live distance’s sign. Each axis’s distance is independent, not a combined 3D length.</p>
+<h3>Name one point Origin</h3>
+<ol>
+<li>Choose <strong>Set Origin</strong> beside a saved point’s name. It becomes <strong>Origin</strong> and locks automatically.</li>
+<li>To replace it, choose the closed lock to <strong>Unlock Origin</strong>. Other Set Origin controls become available.</li>
+<li>Choose Set Origin on the new reference. The former Origin remains as a numbered point with a temporary <strong>Was origin</strong> highlight; the new Origin is locked.</li>
+</ol>
+<p class="note"><strong>Origin is a saved reference, not an axis zero.</strong> Designating or transferring it does not change any coordinates or datums. Its lock prevents another point from replacing it; it does not prevent explicit deletion or protect it from a machine-profile change.</p>
+<p>Use a card’s trash control to delete it. Deleting the selected card hides its distances. Other cards keep their numbers; new captures reuse the lowest available number, so list order may differ from numerical order. There is no undo control for point deletion.</p>
+<h3>Explore saved points in 3D</h3>
+<p>Choose <strong>Visualizer</strong> in the drawer. Click a marker or card to select its point. Drag to rotate, scroll to zoom, and use <strong>Reset view</strong> to fit the points. For keyboard rotation, enter the plot with Enter first; arrows rotate, +/− zoom, and Home resets. Press / to return to navigation.</p>
+<p>The view uses equal scale on all displayed axes. Two-axis setups form a plane. Zero/ABS/REL changes do not move the markers; direction changes mirror them. Lathe diameter scaling is reflected in the plot, so it is a view of measured coordinates rather than a model of the workpiece. Coincident points can be selected individually through their cards. Above 40 points, only the selected point’s number is labeled.</p>
+<p>Close the visualizer to see live distance overlays again. Points persist across ordinary reconnects and relaunches; a new launch starts with none selected. Scale-setting and profile changes have different clearing rules, described in <a href="#persistence">Saving and restarting</a>.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="offsets">
+<h2 id="offsets">08 · Apply a toolhead offset to a point</h2>
+<p>If a captured position represents tool contact, you can shift the saved reference by half the configured toolhead width. DADRO applies the correction you choose; it does not detect contact or choose the side of an edge for you.</p>
+<ol>
+<li>Check <strong>Settings → Edge finding toolhead</strong>. Width is the full toolhead width/diameter; the ½ preview is the physical correction. The default 0.200 in toolhead gives 0.100 in (2.540 mm).</li>
+<li>On a saved point, choose <strong>Offset</strong>. Its editor opens inside the card.</li>
+<li>Choose the axis and <strong>+</strong> or <strong>−</strong>. The sign follows the current displayed axis direction. Check which side of the reference you intend to represent.</li>
+<li>Choose <strong>Apply offset</strong>. The saved position, distance overlay, and marker update; a chip records the correction.</li>
+</ol>
+<p>Applying again <strong>replaces</strong> the correction from the original capture; offsets do not stack. <strong>Cancel</strong> leaves the point unchanged. <strong>Remove offset</strong> restores the original physical position and original coordinate snapshot.</p>
+<p>For example, a positive-direction mill point captured at X = 10 mm becomes X = 12.540 mm after a positive offset using the default toolhead. Applying it again still yields 12.540 mm. Removing it returns to 10 mm. In lathe diameter mode the same 2.540 mm radial correction changes the displayed X by 5.080 mm.</p>
+<p>Each point retains the width used when its correction was applied. Editing the toolhead setting does not resize existing corrections; Apply again explicitly uses the new width. Applying also refreshes the card’s coordinate snapshot using the current datums and directions. Axis zeros remain unchanged, and no scale commands are sent.</p>
+<p>The former standalone Edge Finder workflow is not available in the current app. Point offsets are the current way to apply the configured toolhead correction.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="holes">
+<h2 id="holes">09 · Lay out a circle of holes</h2>
+<p><strong>Lay out holes</strong> is available for mill profiles. It guides manual XY positioning using the historical HCXY angle convention. Z is optional for starting a circle.</p>
+<ol>
+<li><strong>Establish X/Y datums and directions first.</strong> The circle’s center is interpreted in each axis’s selected coordinate frame when you start.</li>
+<li><strong>Open Lay out holes</strong> or press <kbd>F3</kbd>. The visualizer opens over the readouts.</li>
+<li><strong>Enter Center X, Center Y, Circle diameter, Number of holes, and Starting angle.</strong> Lengths use current readout units. On first opening, available X/Y readings seed the center and the count starts at four.</li>
+<li><strong>Select Start circle.</strong> The visualizer closes, X/Y temporarily use REL guidance, and the drawer changes to Hole targets.</li>
+<li><strong>Move until both main X/Y readouts are zero.</strong> The drawer’s large X/Y values are the target coordinates in your original frame; the main readings show your displacement from that target. If a main reading is positive, you are past the target in that axis’s positive direction.</li>
+<li><strong>Choose another hole.</strong> Use Previous/Next or enter a hole number and press Enter. Navigation does not wrap. Changing the target does not move the machine.</li>
+<li><strong>Finish explicitly.</strong> Choose Finish circle at any hole to restore the prior X/Y modes and offsets. Selecting the last hole does not finish automatically.</li>
+</ol>
+<p><strong>Cancel circle</strong>, closing the hole drawer, or Escape in that panel cancels and restores X/Y. Disconnecting, reconnecting, applying Settings, or a serial error also ends the circle. Opening Settings then Cancel preserves it. Browsing Remember point does not end an active circle, although opening Lay out holes clears the selected point-distance overlay.</p>
+<p class="note"><strong>Target selected does not mean hole drilled.</strong> You can skip or revisit any hole without first reaching zero. The visualizer counts visited targets, including the current one; it cannot detect drilling. Reopen it with Visualizer, then close just the visualizer to resume reading scales without ending the circle.</p>
+<h3>Understand the angle before you cut</h3>
+<p><strong>0° starts on −Y. 90° starts on −X.</strong> With +X to the right and +Y upward, increasing angles go clockwise. For zero-based hole index <code>i</code>:</p>
+<pre>θ = starting angle + i × 360° / number of holes
+target X = center X − (diameter / 2) × sin(θ)
+target Y = center Y − (diameter / 2) × cos(θ)
+main readout = current coordinate − target coordinate</pre>
+<div class="lab">
+<fieldset id="hole-lab" disabled>
+<legend>Explore the angle and target coordinates</legend>
+<p class="muted">Practice only, in millimetres. This lesson supports 1–64 holes and does not connect to DADRO. Choose a target to see its exact coordinates.</p>
+<div class="lab-grid"><div>
+<div class="controls">
+<label for="hole-center-x">Center X (mm)<input id="hole-center-x" type="number" min="-10000000" max="10000000" step="any" value="10"></label>
+<label for="hole-center-y">Center Y (mm)<input id="hole-center-y" type="number" min="-10000000" max="10000000" step="any" value="20"></label>
+<label for="hole-diameter">Diameter (mm)<input id="hole-diameter" type="number" min="0" max="10000000" step="any" value="10"></label>
+<label for="hole-count">Number of holes<input id="hole-count" type="number" min="1" max="64" step="1" value="4"></label>
+<label for="hole-angle">Starting angle (°)<input id="hole-angle" type="number" min="-360" max="360" step="any" value="0"></label>
+<label for="hole-number">Target hole<input id="hole-number" type="number" min="1" max="4" step="1" value="1"></label>
+</div>
+<div class="actions"><button id="hole-prev" type="button">Previous hole</button><button id="hole-next" type="button">Next hole</button><button id="hole-reset" type="button">Reset circle</button></div>
+</div><svg viewBox="0 0 340 310" role="img" aria-labelledby="circle-title circle-description">
+<title id="circle-title">Hole-circle angle explorer</title><desc id="circle-description">A fitted circle with positive X right and positive Y up. The filled, double-ring marker is the selected target. Its coordinates are also provided below the diagram.</desc>
+<path class="guide" d="M20 155H320 M170 12V298"></path><circle class="ring" cx="170" cy="155" r="110"></circle>
+<text x="293" y="143">+X</text><text x="181" y="25">+Y</text><text x="177" y="174">Center</text>
+<text x="178" y="289">0° · −Y</text><text x="9" y="182">90°</text><g id="hole-markers"></g>
+</svg></div>
+<output id="hole-target" class="result" aria-live="polite">Hole 1 of 4 · X 10.000 mm · Y 15.000 mm</output>
+<p id="hole-error" class="error" aria-live="polite"></p>
+</fieldset>
+</div>
+<div class="table-wrap"><table><caption>Worked circle: center (10, 20) mm, diameter 10 mm, 4 holes, start 0°</caption><thead><tr><th scope="col">Hole</th><th scope="col">Angle</th><th scope="col">Target X</th><th scope="col">Target Y</th></tr></thead><tbody>
+<tr><td>1</td><td>0°</td><td>10 mm</td><td>15 mm</td></tr><tr><td>2</td><td>90°</td><td>5 mm</td><td>20 mm</td></tr>
+<tr><td>3</td><td>180°</td><td>10 mm</td><td>25 mm</td></tr><tr><td>4</td><td>270°</td><td>15 mm</td><td>20 mm</td></tr>
+</tbody></table></div>
+<p>At original coordinates (12, 18) mm with hole 1 selected, the main readouts show X = +2 mm and Y = +3 mm. Move to (10, 15) mm to make both zero. The target card stays at (10, 15); it does not count down.</p>
+<h3>Limits and controls during a circle</h3>
+<p>The app accepts a whole-number count from <strong>1 to 10,000</strong>, positive diameter up to 10,000,000 mm, center magnitudes up to 10,000,000 mm, and starting angle from −360° to +360°. These software limits are not a statement of machine travel. Numeric fields accept numbers, not DOS-style expressions. Subsequent openings retain entered geometry within the same window.</p>
+<p>X/Y sign, zero, ABS/REL, and Clear zero lock during stepping. Z remains usable, and changing display units converts the presentation without moving the targets. Start needs finite X/Y readings; retained disconnected readings can be used for inspection, but they provide no live positioning. A reconnect ends that sequence and clears software zeros.</p>
+<p>The double-ring marker identifies the current target, filled visited markers identify previously selected targets, and open markers are unvisited. Dense patterns draw up to 361 representative markers; target coordinates and the visited counter remain exact. Only circles of up to 24 holes label every marker.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="tool-path">
+<h2 id="tool-path">10 · Read the tool path</h2>
+<p>The <strong>Tool path</strong> panel below the main actions shows a sampled trail of the configured coordinates. <strong>Start</strong> marks the first retained position or a new segment after a gap. <strong>Tool</strong> marks the latest accepted position.</p>
+<p>It checks every <strong>2 seconds</strong> and accepts a new point after at least <strong>0.001 in / 0.0254 mm</strong> of straight-line travel from the last accepted physical coordinate. Smaller steps accumulate; tiny stationary jitter may not draw a new segment. The main readouts continue updating independently.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Action</th><th scope="col">Effect</th></tr></thead><tbody>
+<tr><td>Drag; or enter the plot and use arrows</td><td>Rotate the view.</td></tr><tr><td>Scroll; or + / − inside the plot</td><td>Zoom.</td></tr>
+<tr><td>↺ / Home inside the plot</td><td>Reset view angle and zoom, retaining the trail.</td></tr><tr><td>× in the path header</td><td>Clear the trail. The next valid check starts a new one.</td></tr>
+<tr><td>Change units or precision</td><td>Preserve the physical geometry and movement threshold.</td></tr><tr><td>Zero, Clear zero, or ABS/REL</td><td>Change readout coordinates without moving the trail.</td></tr><tr><td>Change an axis’s display direction</td><td>Reflect the trail in that direction.</td></tr>
+</tbody></table></div>
+<p>The view holds its frame while points fit, then expands when needed. It stores at most 3,600 accepted positions and gap markers: roughly two hours of continuously accepted movement, potentially longer at rest. Missing coordinates and connection interruptions create gaps. A straight line between samples does not reconstruct the actual motion between checks.</p>
+<p>Disconnect retains the trail; starting acquisition, applying setup, or sending Fast-mode pulses clears it. Quitting discards it. This is a visual aid, not a complete motion log or an exportable machining record. <a href="../tool-path.html">Explore how movement and noise affect the path</a>.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="fast-mode">
+<h2 id="fast-mode">11 · Connection status and Fast mode</h2>
+<p>Connection progresses through passive mode, controller version checking, detection of each configured channel, initial readings, and live updates. These operations happen away from the interface thread. Use <strong>Cancel</strong> during connection or <strong>Disconnect</strong> afterward; allow Stopping… to complete before starting again.</p>
+<p>The controller normally sends changed readings. A stationary scale may retain its last reading without sending a new sample; that alone is not a disconnection. A missing scale is different: dependent readouts show dashes and the status identifies the problem. On an ordinary disconnect, last displayed values remain visible. Always read the connection status before treating them as live.</p>
+<h3>When Enable Fast mode appears</h3>
+<ol>
+<li>Keep the machine still and read the slow-reading banner. Fast mode is an explicit hardware action; it is never automatically enabled at startup.</li>
+<li>Choose <strong>Enable Fast mode</strong>. Live readings pause while the app measures all detected inputs.</li>
+<li>Already-fast inputs are skipped. Where needed, the app sends scale-mode pulses and checks the resulting cadence. Progress stays visible.</li>
+<li>Wait for live readings to resume, then verify the reference and re-establish the datum if pulses were sent.</li>
+</ol>
+<p class="note"><strong>Mode-changing pulses can alter the scale reference.</strong> Software zeros clear before pulses are sent, and the path is reset. Cancel or Disconnect stops subsequent commands but cannot undo a pulse already sent. If setup is interrupted, follow the app’s instruction to restore scales to normal before reconnecting, then verify the physical reference before reusing saved points.</p>
+<p>Settings and coordinate-changing operations are disabled during the hardware sequence; status text explains the work in progress. A Fast-mode attempt ends any active hole circle. Only one attempt is made per connection. If readings remain slow, the banner directs you to check the scales and connection.</p>
+<p>The <strong>Fast mode</strong> indicator describes measured input cadence, not a guarantee of overall latency or accuracy. Idle inputs retain their last classification. It is absent in the built-in XYZ demo. Hover the indicator/status for channel measurements. Higher scale cadence cannot remove shared serial-bandwidth limits, USB buffering, or mechanical error.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="keyboard">
+<h2 id="keyboard">12 · Work from the keyboard</h2>
+<p>DADRO distinguishes <strong>moving between controls</strong> from <strong>editing inside a control</strong>. Focus has a blue outline for navigation and an amber outline while editing; the status hint names the mode too.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Key</th><th scope="col">Navigating</th><th scope="col">Editing or using a plot</th></tr></thead><tbody>
+<tr><td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td><td>Move focus through the visible control grid. Values do not change; movement stops at the edge.</td><td>Adjust numbers, move a text cursor, choose list entries, or rotate a plot.</td></tr>
+<tr><td><kbd>Enter</kbd></td><td>Activate a button/toggle, or enter an input/plot. A dropdown opens.</td><td>Commit a number or select a dropdown item. Committing a field does not also advance a hole circle.</td></tr>
+<tr><td><kbd>/</kbd></td><td>Stay in navigation.</td><td>Leave editing and navigate from this control. Pending numeric text follows the field’s validation; an open dropdown closes.</td></tr>
+<tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></td><td colspan="2">Move through the normal forward/backward focus order.</td></tr>
+<tr><td><kbd>Space</kbd></td><td colspan="2">Use the focused button or checkbox; switch a focused two-option toggle.</td></tr>
+<tr><td><kbd>F3</kbd></td><td colspan="2">Open Lay out holes for a mill profile.</td></tr>
+<tr><td><kbd>Esc</kbd></td><td colspan="2">Dismiss the active popup, visualizer, or function panel according to focus. Escape in the hole drawer cancels its circle; Escape inside its visualizer closes just the visualizer. Use / to leave an input without dismissing the drawer.</td></tr>
+<tr><td><kbd>+</kbd> / <kbd>−</kbd>, <kbd>Home</kbd></td><td>Enter the plot first.</td><td>Zoom or reset the plot’s view.</td></tr>
+</tbody></table></div>
+<p>Disabled, hidden, and overlay-covered controls are skipped. Scrolling forms reveal the focused control. Clicking an input or plot also enters editing. Plain slash is reserved, so paste interface paths such as <code>/dev/ttyUSB0</code> or <code>socket://127.0.0.1:8765</code>; clipboard shortcuts still work.</p>
+<p>For a circle: enter and edit a field → press / → navigate to Start circle → press Enter. During stepping, navigate to Previous, Next, or Finish circle and activate it. Enter on the drawer background can advance to Next when available, but never finishes automatically.</p>
+<p><a href="../keyboard-navigation.html">Practice the navigation grid</a>. This HTML guide uses ordinary browser keyboard behavior; DADRO’s navigation keys apply inside the native app.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="practice">
+<h2 id="practice">13 · Practice without hardware</h2>
+<h3>Automatic XYZ demo</h3>
+<p>Use <code>--demo</code> or <strong>Try XYZ demo</strong> on the machine-selection screen. All axes start at zero and reverse at 30 mm and 0 mm. X moves at 1 mm/s, Y at 0.6 mm/s, and Z at 0.25 mm/s. They do not simulate acceleration or sensor noise.</p>
+<p>The demo does not replace the saved hardware configuration. It does apply a default Mill · Table + vertical setup to the active window, so <a href="#persistence">saved-point clearing rules</a> still apply: an incompatible scale setup clears ordinary points, and a different profile also clears Origin. Returning to hardware does not recover cleared points.</p>
+<p>Disconnect stops the demo; choosing it again restarts its travel from zero. To return to hardware, open Settings and apply the intended profile and interface. If you already have a saved configuration, Settings/Connect opens it for review and application; a fresh unconfigured demo first requires setup.</p>
+<h3>Manual mill or lathe simulator</h3>
+<p>Use the full repository’s separate simulator when you need exact, stationary positions. It uses the same dependencies. Start both programs on the same computer in separate terminals:</p>
+<pre># Terminal 1
+python3 -B src/machine_simulator.py
+
+# Terminal 2
+python3 -B src/app.py --port socket://127.0.0.1:8765</pre>
+<p>In the simulator, choose the machine and use <strong>Copy address</strong>. Paste it into DADRO’s Interface field and apply a matching configuration:</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Simulator</th><th scope="col">DADRO card</th><th scope="col">Channels, input direction +</th></tr></thead><tbody>
+<tr><td>Three-axis mill</td><td>Mill · Table + vertical</td><td>X = 0, Y = 1, Z = 2</td></tr>
+<tr><td>Two-axis lathe</td><td>Lathe · Cross slide + carriage</td><td>X = 0, Z1 = 1</td></tr>
+</tbody></table></div>
+<p>Drag sliders or type positions and press Return. Each position stays until changed. Sliders cover −500 to +500 mm. Changing the simulator’s machine disconnects DADRO and resets simulated positions. Update DADRO’s profile and reconnect. DADRO saves an applied simulator interface, so choose your hardware port again when returning to real scales.</p>
+<h3>A repeatable practice sequence</h3>
+<ol>
+<li>Choose the mill, positive directions, ABS with no zeros, and mm units. Set simulator X = 25.40, Y = −10.00, Z = 12.50. Read 25.400, −10.000, 12.500.</li>
+<li>Switch to inches. Read 1.0000, −0.3937, 0.4921. Switch back to mm.</li>
+<li>Zero X in DADRO; set simulator X = 26.40. Read 1.000 mm. Reverse X and read −1.000 mm. Restore positive direction.</li>
+<li>Capture a point, select it, and move X by 5 mm. Check a +5 mm point distance even if you change the main X zero.</li>
+<li>Clear the appropriate X/Y offsets. Use the four-hole example above and manually set each simulator target; both main readings should reach zero.</li>
+</ol>
+<p>The simulator checks software workflows and the protocol path; it does not reproduce real electrical signaling, scale noise, calibration, or serial latency. See the <a href="../machine-simulator.html">manual simulator guide</a> for port conflicts, exact controls, and dependency repair.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="persistence">
+<h2 id="persistence">14 · What is saved, and what resets?</h2>
+<p>Configuration and remembered points live in the current user’s Qt settings store, outside the source/release folder. Copying the program does not transfer another user’s setup. DADRO has no in-app settings or point export/import workflow.</p>
+<div class="table-wrap"><table><caption>Use this table before changing a setup or reconnecting</caption><thead><tr><th scope="col">Item or action</th><th scope="col">What to expect</th></tr></thead><tbody>
+<tr><td>Saved machine setup</td><td>Profile, interface, channel mapping, input directions, lathe geometry/display choices, toolhead width, and toolhead units return on next launch. Saving can succeed even if hardware is unplugged.</td></tr>
+<tr><td>Readout precision</td><td>Saved immediately for each axis and separately for mm/in. X and Ø X share the X preference.</td></tr>
+<tr><td>Readout units, sign, mode</td><td>A simple reconnect keeps the current selections. Applying a machine configuration (including starting the XYZ demo) resets display directions to + and modes to ABS while keeping the current units. A new window starts in inches, positive directions, and ABS.</td></tr>
+<tr><td>ABS and REL zeros</td><td>Not restored on launch. Both clear whenever acquisition starts again or setup is applied. Fast-mode pulses clear them too.</td></tr>
+<tr><td>Ordinary disconnect or serial error</td><td>Saved points remain. The last display/trail may remain visible, but it is not live. An active circle ends. Reconnect clears zeros and starts a new trail.</td></tr>
+<tr><td>Saved points, offsets, Origin lock</td><td>Persist through ordinary reconnects and quitting with the same setup. New launches select no distance reference. The temporary Was origin highlight is not saved.</td></tr>
+<tr><td>Save unchanged setup or toolhead-only edits</td><td>Keep points. Saving still reconnects and clears software zeros. Existing point offsets keep their original size.</td></tr>
+<tr><td>Change scale settings within a profile</td><td>Changes to interface, channels, input directions, angle, diameter mode, or summed-Z mode clear ordinary points. Origin remains with its original setup; distances, offsets, and its marker are unavailable until that setup is restored.</td></tr>
+<tr><td>Apply a different machine profile</td><td>Clear every point, including locked Origin. This includes switching between two mill profiles. Returning to the old profile does not restore deleted points.</td></tr>
+<tr><td>Start XYZ demo</td><td>Apply a default three-axis mill setup without replacing the saved hardware configuration. The same point-clearing rules apply if its setup/profile differs. The demo is not a separate saved-point workspace.</td></tr>
+<tr><td>Cancel Settings</td><td>Discard only the draft. Preserve the active configuration, connection, zeros, points, selection, and circle.</td></tr>
+<tr><td>Hole-circle geometry and progress</td><td>Entered geometry lasts in the current window. Sequence progress clears on finish/cancel or acquisition changes; it is not a saved job.</td></tr>
+<tr><td>Tool path and camera choices</td><td>Session-only. Quit discards the trail. Acquisition starts, applied setup, and Fast-mode pulses clear it.</td></tr>
+</tbody></table></div>
+<p class="note"><strong>Persistence is not physical verification.</strong> Points retain scale-based coordinates. If the controller or scales reset their physical reference, old points may no longer refer to the same machine locations even though their cards are still saved. Check against a known reference before using them.</p>
+<p>If a point write fails, the drawer reports it and keeps your changes in the current window; they may not survive quitting. Invalid stored point data is left untouched on load. A settings-write failure keeps configuration edits in the draft and does not reconnect. A precision-write failure keeps the choice for the current session and reports it in the status bar.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="troubleshooting">
+<h2 id="troubleshooting">15 · Troubleshooting</h2>
+<p>Start with the status bar and its hover detail. Check whether you are seeing live hardware, simulated data, or retained disconnected values. A problem report is most useful when it includes the profile, mapped channels, interface, exact message, units, and whether the same behavior occurs in the demo.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Symptom</th><th scope="col">Check and next action</th></tr></thead><tbody>
+<tr><td>Cannot open the serial port</td><td>Verify the selected interface using the port-list command, reconnect the adapter, and close any other program using it. Check OS access permissions. Correct the interface in Settings and reconnect.</td></tr>
+<tr><td>No supported scales detected</td><td>Verify the controller connection and baud, scale power/wiring, and mapped channels 0–3. A successful interface open alone does not confirm scale detection.</td></tr>
+<tr><td>One or more axes show —</td><td>Read the missing-scale message and compare channel assignments to wiring. Combined Z requires both vertical inputs; compound-derived coordinates require the compound input. Missing input is never treated as zero.</td></tr>
+<tr><td>Value is twice the expected X movement</td><td>Check lathe diameter mode. Ø X intentionally doubles radial travel, including saved-point distances and corrections.</td></tr>
+<tr><td>Wrong sign or unexpected combined travel</td><td>Check input directions in Settings, then displayed +/−, compound angle, and summed-Z choice. Test one physical motion at a time. Saving corrected setup reconnects and clears zeros.</td></tr>
+<tr><td>Unexpected zero or distance</td><td>Check units, each axis’s ABS/REL selection, and active hole guidance. Distinguish the large coordinate from a saved point’s Δ overlay. Clear zero removes an offset; Origin designation does not zero an axis.</td></tr>
+<tr><td>Numbers stop changing</td><td>Check connection state first. Stationary scales may send no changed records. A disconnected screen retains its last sample; the automatic demo stops on Disconnect. Move a known safe amount and inspect the status.</td></tr>
+<tr><td>Zero or Settings is disabled</td><td>During a circle, X/Y reference controls lock. During Fast-mode setup, readings pause and Settings is disabled. Read the activity message and finish/cancel the relevant operation.</td></tr>
+<tr><td>Main buttons disappeared</td><td>Close the open Visualizer using its × or drawer toggle. The overlay hides the action column; it does not stop acquisition.</td></tr>
+<tr><td>Remember this point is unavailable</td><td>Capture requires a ready connection and valid readings for every displayed axis. Existing points remain available for browsing while disconnected.</td></tr>
+<tr><td>Origin shows coordinates but no distances</td><td>The scale setup differs from the one attached to that Origin. Restore the original setup to use its reference again. Applying a different profile clears it entirely.</td></tr>
+<tr><td>Circle targets differ from expectations</td><td>Check current units, original X/Y modes/directions, and the 0° = −Y, 90° = −X convention. Target cards show coordinates; main readouts show displacement from them.</td></tr>
+<tr><td>Tool path seems still or incomplete</td><td>It samples every 2 seconds and needs 0.0254 mm of accumulated travel. Gaps indicate unavailable data. It does not show every motion or replace the live readouts.</td></tr>
+<tr><td>Last digit flickers</td><td>Reducing decimal places changes presentation only. DADRO does not smooth the main readings. Compare stationary behavior and a slow known move; larger jumps, resets, or sustained drift need investigation of the scales and connection.</td></tr>
+<tr><td>Fast-mode setup was interrupted</td><td>Restore scale modes as directed before reconnecting. An already-sent pulse cannot be undone by Cancel. Re-establish the datum and verify remembered references.</td></tr>
+<tr><td>Settings or point save error</td><td>Read the exact message and check the current user’s settings-store access. Do not assume in-memory point changes survived quitting. Configuration save failures leave the draft open.</td></tr>
+</tbody></table></div>
+<h3>Installation and desktop problems</h3>
+<details open><summary>Python reports a missing PyQt6 or serial module</summary><p>Use the interpreter/environment where you installed the dependencies. From the repository or release directory run <code>python -m pip install -r REQUIREMENTS.txt</code> in the intended virtual environment. On the documented Pi setup, use the distro packages and <code>/usr/bin/python3</code>.</p></details>
+<details open><summary>“serial” has no attribute “Serial” or “serial_for_url”</summary><p>The wrong or incomplete Python module may be loaded. Inspect it using the same interpreter that runs DADRO:</p><pre>python3 -c "import sys, serial; print(sys.executable); print(serial.__file__); print(callable(getattr(serial, 'Serial', None))); print(callable(getattr(serial, 'serial_for_url', None)))"
+python3 -m pip show pyserial serial</pre><p>If the unrelated <code>serial</code> distribution is installed, remove it before reinstalling pyserial. If a local <code>serial.py</code> or <code>serial/</code> shadows the package, rename that conflicting module. For a damaged virtual-environment install, use <code>python3 -m pip install --force-reinstall pyserial</code>. For distro-managed Pi Python, use <code>sudo apt install --reinstall python3-serial</code>. Quit and relaunch DADRO after repair; reconnecting alone retains the imported module.</p></details>
+<details open><summary>A Wayland or Qt theme warning appears on Raspberry Pi</summary><p>If the window opens and works, the warning alone does not establish a failed launch. If the window fails to open, capture the complete terminal output and confirm you are in a graphical desktop session. Follow the <a href="../raspberry-pi.html">Qt plugin diagnosis</a>; do not copy arbitrary plugins between system and pip installations.</p></details>
+<details open><summary>The manual simulator is waiting for DADRO</summary><p>Run both apps on the same computer, copy the simulator’s current socket address, and paste it into DADRO’s Interface field. Match the profile and channels, then connect. If the default local port is occupied, stop the simulator server, choose a free port (or Automatic), restart it, and copy the new address. An applied socket address stays saved until changed.</p></details>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="reference">
+<h2 id="reference">16 · Reference and glossary</h2>
+<dl>
+<dt>Datum</dt><dd>A reference from which coordinates are measured. DADRO’s ABS datum is a software offset; it is not an absolute encoder guarantee.</dd>
+<dt>REL</dt><dd>An extra offset from ABS, useful for measuring one move without losing the main reference.</dd>
+<dt>Origin</dt><dd>One designated remembered point. It has a replacement lock and special same-profile retention rules; it is separate from every axis’s zero.</dd>
+<dt>Δ (delta)</dt><dd>The signed distance from a selected saved point along an axis, in current display direction and units.</dd>
+<dt>Input direction / display direction</dt><dd>Input direction changes a scale’s contribution before geometry. Display direction reverses the resulting axis after offsets.</dd>
+<dt>Q, Z1, Z2</dt><dd>Q is the separately measured quill input. On a lathe, Z1 is carriage travel; Z2 is the compound’s projected longitudinal contribution.</dd>
+<dt>Ø X</dt><dd>Lathe diameter display: twice the radial X coordinate after offsets.</dd>
+<dt>Target / visited</dt><dd>A target is the selected hole location. Visited means selected at least once during this circle; it does not mean machined.</dd>
+<dt>Resolution / precision / accuracy</dt><dd>Scale resolution limits the smallest reported increment. Display precision chooses decimal places. Physical accuracy depends on the installed and verified measurement system.</dd>
+</dl>
+<h3>Further reading in this repository</h3>
+<p>These topic pages include implementation notes and more detailed examples. Some preserve earlier proposals or measurements; the workflows above describe the current application.</p>
+<div class="cards">
+<article class="card"><h3>Setup and operation</h3><p><a href="../machine-setup.html">Machine setup</a><br><a href="../axis-controls.html">Axis controls and datums</a><br><a href="../function-panels.html">Function drawers</a><br><a href="../keyboard-navigation.html">Keyboard practice</a></p></article>
+<article class="card"><h3>Machining references</h3><p><a href="../remember-point.html">Remembered points and 3D explorer</a><br><a href="../hole-circle.html">Hole-circle explorer</a><br><a href="../tool-path.html">Tool path and noise explorer</a></p></article>
+<article class="card"><h3>Installation and diagnostics</h3><p><a href="../release.html">Source release</a><br><a href="../raspberry-pi.html">Raspberry Pi</a><br><a href="../machine-simulator.html">Manual simulator</a><br><a href="../test-mode.html">Automatic XYZ demo</a><br><a href="../yadro-protocol.html">Controller protocol and Fast mode</a></p></article>
+</div>
+<p>The <a href="../yadro-dos-commands.html">recovered YADRO DOS command reference</a> documents historical macros and supplies this guide’s visual theme. DADRO does not run the DOS macro interpreter or expose every command in that catalog. Use the current app controls described here.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+<footer><p>Guide reviewed against the current <a href="../../src/app.py">launcher</a>, <a href="../../src/xyz_monitor.py">application</a>, <a href="../../src/machine_setup.py">machine-coordinate definitions</a>, and existing topic documentation on 2 November 2026. Screenshots illustrate the native application using simulated data. Browser lessons are local practice tools; they never connect to a controller or save app settings.</p><p>Guide validation: <code>node docs/user-guide/check.mjs</code> checks local links, theme tokens, labels, and interactive arithmetic. Physical calibration and hardware behavior must be verified on the machine.</p><p><a href="#top">Back to the top ↑</a></p></footer>
+</main>
+<script>
+// ponytail: two local lessons, no storage or dependencies; the tables also work without JavaScript.
+const byId = id => document.getElementById(id);
+const finiteInput = id => {
+  const text = String(byId(id).value).trim();
+  return text === '' ? NaN : Number(text);
+};
+const fixed = (value, places) => (Number(value.toFixed(places)) === 0 ? 0 : value).toFixed(places);
+let absoluteZero = 0, relativeZero = 0;
+function renderDatum() {
+  const position = finiteInput('datum-position');
+  const valid = Number.isFinite(position) && Math.abs(position) <= 1e7;
+  byId('datum-zero').disabled = !valid;
+  byId('datum-error').textContent = valid ? '' : 'Enter a finite machine position between −10,000,000 and +10,000,000 mm.';
+  const inches = byId('datum-units').value === 'in';
+  const relative = byId('datum-mode').value === 'rel' ? relativeZero : 0;
+  const value = Number(byId('datum-direction').value) * (position - absoluteZero - relative) / (inches ? 25.4 : 1);
+  byId('datum-result').textContent = valid ? `${fixed(value, inches ? 4 : 3)} ${inches ? 'in' : 'mm'}` : '—';
+  byId('datum-state').textContent = `ABS datum: ${fixed(absoluteZero, 3)} mm · REL offset: ${fixed(relativeZero, 3)} mm`;
+}
+byId('datum-position').addEventListener('input', renderDatum);
+for (const id of ['datum-mode', 'datum-direction', 'datum-units']) byId(id).addEventListener('change', renderDatum);
+byId('datum-zero').addEventListener('click', () => {
+  const position = finiteInput('datum-position');
+  if (!Number.isFinite(position) || Math.abs(position) > 1e7) return;
+  if (byId('datum-mode').value === 'rel') relativeZero = position - absoluteZero;
+  else absoluteZero = position;
+  renderDatum();
+});
+byId('datum-clear').addEventListener('click', () => {
+  if (byId('datum-mode').value === 'rel') relativeZero = 0;
+  else absoluteZero = 0;
+  renderDatum();
+});
+byId('datum-reset').addEventListener('click', () => {
+  absoluteZero = relativeZero = 0;
+  byId('datum-position').value = '25.4'; byId('datum-mode').value = 'abs';
+  byId('datum-direction').value = '1'; byId('datum-units').value = 'mm';
+  renderDatum();
+});
+function renderCircle() {
+  const x = finiteInput('hole-center-x'), y = finiteInput('hole-center-y');
+  const diameter = finiteInput('hole-diameter'), count = finiteInput('hole-count');
+  const angle = finiteInput('hole-angle'), number = finiteInput('hole-number');
+  const valid = [x, y, diameter, angle].every(Number.isFinite) && Math.abs(x) <= 1e7 && Math.abs(y) <= 1e7
+    && diameter > 0 && diameter <= 1e7 && Math.abs(angle) <= 360
+    && Number.isInteger(count) && count >= 1 && count <= 64
+    && Number.isInteger(number) && number >= 1 && number <= count;
+  byId('hole-prev').disabled = !valid || number === 1;
+  byId('hole-next').disabled = !valid || number === count;
+  byId('hole-error').textContent = valid ? '' : 'Use finite centers within ±10,000,000 mm, a positive diameter up to 10,000,000 mm, 1–64 whole holes, an angle within ±360°, and a target within the pattern.';
+  if (!valid) { byId('hole-target').textContent = '—'; byId('hole-markers').innerHTML = ''; return; }
+  const radians = index => (angle + index * 360 / count) * Math.PI / 180;
+  const theta = radians(number - 1);
+  byId('hole-target').textContent = `Hole ${number} of ${count} · X ${fixed(x - diameter / 2 * Math.sin(theta), 3)} mm · Y ${fixed(y - diameter / 2 * Math.cos(theta), 3)} mm`;
+  // Only validated numbers enter the SVG; the coordinate output remains accessible as text.
+  byId('hole-markers').innerHTML = Array.from({length: count}, (_, index) => {
+    const cx = 170 - 110 * Math.sin(radians(index)), cy = 155 + 110 * Math.cos(radians(index));
+    const selected = index === number - 1;
+    return `<circle aria-hidden="true" class="${selected ? 'selected' : 'other'}" cx="${cx}" cy="${cy}" r="${selected ? 6 : 4}"/>`
+      + (selected ? `<ellipse aria-hidden="true" class="ring" cx="${cx}" cy="${cy}" rx="10" ry="10"/>` : '');
+  }).join('');
+}
+for (const id of ['hole-center-x', 'hole-center-y', 'hole-diameter', 'hole-angle', 'hole-number']) byId(id).addEventListener('input', renderCircle);
+byId('hole-count').addEventListener('input', () => {
+  const count = finiteInput('hole-count');
+  if (Number.isInteger(count) && count >= 1 && count <= 64) {
+    byId('hole-number').max = String(count);
+    if (finiteInput('hole-number') > count) byId('hole-number').value = String(count);
+  }
+  renderCircle();
+});
+for (const [id, delta] of [['hole-prev', -1], ['hole-next', 1]]) byId(id).addEventListener('click', () => {
+  byId('hole-number').value = String(finiteInput('hole-number') + delta); renderCircle();
+});
+byId('hole-reset').addEventListener('click', () => {
+  for (const [id, value] of [['hole-center-x', '10'], ['hole-center-y', '20'], ['hole-diameter', '10'], ['hole-count', '4'], ['hole-angle', '0'], ['hole-number', '1']]) byId(id).value = value;
+  byId('hole-number').max = '4'; renderCircle();
+});
+byId('datum-lab').disabled = byId('hole-lab').disabled = false;
+for (const id of ['datum-clear', 'datum-reset', 'hole-reset']) byId(id).disabled = false;
+renderDatum(); renderCircle();
+</script>
+</body>
+</html>
