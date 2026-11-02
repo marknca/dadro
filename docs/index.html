@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DADRO — Project overview</title>
+<meta name="description" content="DADRO modernizes the YADRO digital readout for mills and lathes. Install the application, read the user guide, and explore the project’s history.">
+<style>
+:root{color-scheme:light dark;font:16px/1.6 system-ui,sans-serif;--bg:light-dark(#f4f6f8,#11171d);--panel:light-dark(#fff,#1c252e);--ink:light-dark(#172b3c,#e7edf3);--muted:light-dark(#486176,#aebfcd);--line:light-dark(#cbd6df,#425363);--accent:light-dark(#075aa3,#83c6ff)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}main{max-width:1180px;margin:auto;padding:3rem 1.5rem 5rem}h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0 1.5rem}h2{font-size:1.8rem;margin-top:3rem;scroll-margin-top:1rem}h3{margin-top:2rem}a{color:var(--accent)}p{max-width:95ch}.eyebrow,small,.muted{color:var(--muted)}.eyebrow{letter-spacing:.12em;text-transform:uppercase;font-size:.8rem}.lead{font-size:1.15rem}.contents{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem 1.3rem;padding:1.2rem 0;border-block:1px solid var(--line)}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}.card,.note{background:var(--panel);padding:1.2rem;border:1px solid var(--line);border-radius:12px}.card h3{margin:0 0 .6rem}.card p:last-child{margin-bottom:0}.note{border-left:4px solid var(--accent);margin:1.3rem 0}.note p:first-child{margin-top:0}.note p:last-child{margin-bottom:0}code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}code{font-size:.92em;overflow-wrap:anywhere}kbd{white-space:nowrap;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:.1em .35em}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.85rem;padding:1rem;background:var(--bg);border:1px solid var(--line);border-radius:6px}.back{font-size:.85rem}.skip{position:absolute;left:1rem;top:-5rem;padding:.6rem 1rem;background:var(--panel);z-index:1}.skip:focus{top:1rem}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}section{border-bottom:1px solid var(--line);padding-bottom:1.5rem}footer{margin-top:3rem;font-size:.9rem}
+@media(max-width:650px){main{padding:1.5rem .8rem}.card{padding:1rem}.contents{grid-template-columns:1fr 1fr;gap:.8rem;font-size:.9rem}}
+@media print{.contents,.back,.skip{display:none}body{background:white;color:black}main{max-width:none;padding:0;font-size:10pt}h1{font-size:30pt}h2{font-size:20pt}h2,h3{break-after:avoid}.note{break-inside:avoid}a{color:inherit;text-decoration:underline}.card,.note,pre{background:white;border-color:#aaa}.muted,.eyebrow{color:#333}section{border:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#requirements">Skip to requirements</a>
+<main id="top">
+<header>
+<div class="eyebrow">DADRO / Project overview</div>
+<h1 id="dadro">DADRO</h1>
+<p class="lead">Keep your YADRO hardware running with this modern re-write of Nick M&uuml;ller&#39;s YADRO software.</p>
+<div class="cards">
+<article class="card"><h3>Use DADRO</h3><p>Configure your machine, establish a datum, and explore the readout’s tools in the <a href="user-guide/index.html">complete user guide</a>.</p></article>
+<article class="card"><h3>Get up and running</h3><p>Check the <a href="#requirements">requirements</a>, then <a href="#running-the-program">launch the application</a>. See the <a href="release.html">source release notes</a> for packaging details.</p></article>
+<article class="card"><h3>Explore the original</h3><p>Read the <a href="#history">project’s history</a> and the <a href="yadro-dos-commands.html">recovered DOS command reference</a>.</p></article>
+</div>
+</header>
+<h2 id="contents">On this page</h2>
+<nav class="contents" aria-label="Contents">
+<a href="#requirements">01 · Requirements</a><a href="#running-the-program">02 · Running the program</a>
+<a href="#history">03 · History</a><a href="#modernizing-the-project">04 · Modernizing the project</a>
+</nav>
+<section aria-labelledby="requirements">
+<h2 id="requirements">Requirements</h2>
+<p>This re-write was designed to run on Linux, macOS, and Windows. It&#39;s written using the Python programming language and uses a framework called Qt for the user interface. Both of these are freely available for this use case on a broad set of supported platforms.</p>
+<p>Most users will be running this on a Linux distribution given the primary use case of running on a shop environment. For Raspberry Pi systems, use the system Python and Qt packages:</p>
+<pre class="card">sudo apt update
+sudo apt install python3-pyqt6 python3-serial qt6-wayland</pre>
+<p>The Pi setup includes the required Python bindings and serial library. Launch it with system Python; see the <a href="raspberry-pi.html">Raspberry Pi installation notes</a> for desktop and Qt plugin troubleshooting. Other distributions may use different package names.</p>
+<p>On macOS, use Homebrew to get up and running quickly with:</p>
+<pre class="card">brew install python3</pre>
+<p>For a virtual-environment installation, run these commands from the repository root or the release directory. The manifest installs PyQt6 and pyserial together:</p>
+<pre class="card">python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r REQUIREMENTS.txt</pre>
+<p>For Windows commands and platform-specific details, follow <a href="user-guide/index.html#installation">Install and launch</a> in the user guide.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="running-the-program">
+<h2 id="running-the-program">Running the program</h2>
+<p>From the repository root, launch the release snapshot using the Python environment where its dependencies are installed:</p>
+<pre class="card">python3 -B release/src/app.py</pre>
+<p>From inside the release directory, use <code>python3 -B src/app.py</code>. On the Pi system-package setup, use <code>/usr/bin/python3</code>. The app opens machine setup on first run; the <a href="user-guide/index.html#setup">user guide walks through connecting the scales</a>.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="history">
+<h2 id="history">History</h2>
+<p>My first introduction to the YADRO project was in 2008. My father bought the hardware kit to set up scales on his 3-axis mill. Since then, he added a YADRO kit to his lathe and has been using the hardware+software regularly with minimal issue for over 18 years.</p>
+<p>The YADRO project was launched in 2006 and went offline sometime in the fall of 2014. The Wayback Machine from the Internet Archive has a number of snapshots from when the project was active, but <a href="https://web.archive.org/web/20140930031902/https://yadro.de/">this last one</a> is probably the most useful.</p>
+<aside class="note">
+<p>You can navigate the original project website through <a href="https://web.archive.org/web/20140930031902/https://yadro.de/">the Wayback Machine</a> or via the cached copy in this repo under <a href="../yadro-de/index.html">yadro-de</a>.</p>
+</aside>
+<p>The short version of the project is that it&#39;s a small hardware device that reads and powers up to 4 scale inputs (3 axes + 1 quill). Paired with its DOS-based software, it provides a simple, robust digital read out (DRO) for lathes and mills.</p>
+<h3 id="original-software">Original software</h3>
+<p>My father&#39;s original setup was using an old 486sx laptop with a TFT screen and running the software off of a bootable 3.5&quot; floppy disk. Believe it or not, this was a reasonably reliable setup. It worked for years and when—once or twice—there was an inevitable hardware failure, a replacement laptop was easy enough to get from the local electronics recycler for under $80 CDN.</p>
+<p>As you might guess, a major challenge was the floppy disk. A fragile, spinning PET plastic disk with a ferromagnetic oxide coating that&#39;s read by two electromagnetic heads is <strong>not</strong> a piece of equipment that you want running next to a lathe or a mill!</p>
+<p>All of those little metal shavings eventually find their way into either the laptop, the floppy disk drive, or the actual floppy disk.</p>
+<aside class="note">
+<p>If you are still using a floppy disk-based system, there is a <a href="../original-bootable-floppy/yadro-bootable-dos-6.22.img">bootable disk image</a> and the <a href="../original-bootable-floppy/yadro-bootable-dos-6.22/">full boot disk contents</a> in this repo.</p>
+</aside>
+<h3 id="original-hardware">Original hardware</h3>
+<p>Nick&#39;s website has a complete breakdown of the hardware. From how to <a href="../yadro-de/building-the-kit.html">build the PCB</a> to the <a href="../yadro-de/int4.pdf">complete circuit diagram</a> to how to <a href="../yadro-de/debugging-scales.html">debug the scales</a>. There is also a complete schematic for <a href="../yadro-de/in-detail-interface-dro-int-4.html">the wire protocol</a> that the software interprets.</p>
+<p>The hardware is extremely well designed and the only reason to consider replacing it is if your current scales fail and you decide to go in a different direction with their replacements.</p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+
+<section aria-labelledby="modernizing-the-project">
+<h2 id="modernizing-the-project">Modernizing the project</h2>
+<p>To replace the floppy disk-based system, I first tried to virtualize the DOS software on top of Linux. Specifically, I tried to get it running efficiently under <a href="https://dosbox-x.com">DOSBox-X</a>, <a href="https://dosemu2.github.io/dosemu2/">DOSEMU2</a>, and <a href="https://86box.net">86Box</a>.</p>
+<p>Each of these was capable of running the basic software, but inevitably ran into challenges with &quot;fast mode&quot; where the reads from the serial port were near-constant. </p>
+<p>Why? This is a question I wrestled with for a while. Even the smallest of <a href="https://www.raspberrypi.com/documentation/computers/zero.html">Raspberry Pi Zero</a> absolutely eclipses the 486 hardware the project started on. Even with the overhead of running a native operating system (Linux) and then emulating another (DOS) while converting CPU instructions from x86 to ARM should leave enough computing power to run hundreds of DRO instances.</p>
+<p>But things rarely work the way the spec says.</p>
+<p>At the heart of the matter is the challenge with the serial port over USB adapters that are inevitably required to connect to the YADRO hardware. This adds some additional hardware limitations (the adapters are not designed with this use case in mind) that conflicted with the original DOS programming.</p>
+<p>It is possible to get modern replacements to create a direct serial port connection wired to a Raspberry Pi, but that didn&#39;t seem worth the effort. </p>
+<p>There were just too many moving pieces to ensure this was a reliable implementation.</p>
+<h3 id="reverse-engineering-the-original-software">Reverse engineering the original software</h3>
+<p>With the complete documentation and working code, this project started by directing OpenAI&#39;s Codex using GPT6-Astra to reverse engineer and document the complete functionality of the existing YADRO software.</p>
+<p>That work resulted in a quite comprehensive set of documents describing how the hardware and DOS application interacted and how the work was done. The key information from that effort has been cleaned up and imported here as <a href="yadro-dos-commands.html">/docs/yadro-dos-commands.html</a>. This page lists all of the basic and macro commands available in the original software and explains what they do.</p>
+<p>That document is the basis for the new application code. Since we had a reference that was built from and proven by the original code, we were more confident in the outcome of a rewrite.</p>
+<p>This was enough that we were able to write a quick proof of concept by hand. This quick test confirmed that the issue was the DOS-based software and the serial-to-USB adapter, the new code easily read at full speed from the YADRO through a serial-to-USB adapter with minimal hardware. </p>
+<h3 id="rewriting-the-code-and-updating-the-user-interface">Rewriting the code and updating the user interface</h3>
+<p>The protocol to interpret the data from the YADRO hardware was the easiest part of the project. With complete documentation and the reverse engineered original software, Codex was able to write a new parser in Python that required only minor adjustments after testing with real hardware (<a href="../release/src/yadro_protocol.py">/release/src/yadro_protocol.py</a>).</p>
+<p>Efforts then moved to modernizing the user interface. While the original <a href="../yadro-de/software-dro-ddisplay.html">DOS interface</a> now comes across as very <em>retro</em>, it doesn&#39;t provide a great experience on modern hardware.</p>
+<p>The new implementation is designed with a more modern 1920x1080 resolution (1080p) in mind. It&#39;ll scale and adjust to other resolutions, but the expectation is that most low-cost displays will be operating at this resolution. By aiming for this common 16:9 aspect ratio, the interface focuses on displaying the scale readings in a clean, bold control that you can see clearly from a distance.</p>
+<p>Multiple macros from the original YADRO have been condensed into more intuitive functionality. This is now possible because the software is working with a graphical user interface and not a simple text-based one. </p>
+<p>Simple keyboard navigation has been maintained and the entire application can be navigated with the four arrow keys, enter, and <code>/</code>...all conveniently located on a standard number pad.</p>
+<p>The specifics of the new software are described in depth in the documentation. <a href="user-guide/index.html">You can start reading that here.</a></p>
+<a class="back" href="#contents">Back to contents ↑</a>
+</section>
+<footer><p>DADRO · A modern readout for existing YADRO hardware.</p><p><a href="user-guide/index.html">User guide</a> · <a href="release.html">Source release</a> · <a href="#top">Back to the top ↑</a></p></footer>
+</main>
+</body>
+</html>
