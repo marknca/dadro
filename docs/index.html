@@ -63,7 +63,7 @@ python -m pip install -r REQUIREMENTS.txt</pre>
 <p>My first introduction to the YADRO project was in 2008. My father bought the hardware kit to set up scales on his 3-axis mill. Since then, he added a YADRO kit to his lathe and has been using the hardware+software regularly with minimal issue for over 18 years.</p>
 <p>The YADRO project was launched in 2006 and went offline sometime in the fall of 2014. The Wayback Machine from the Internet Archive has a number of snapshots from when the project was active, but <a href="https://web.archive.org/web/20140930031902/https://yadro.de/">this last one</a> is probably the most useful.</p>
 <aside class="note">
-<p>You can navigate the original project website through <a href="https://web.archive.org/web/20140930031902/https://yadro.de/">the Wayback Machine</a> or via the cached copy in this repo under <a href="../yadro-de/index.html">yadro-de</a>.</p>
+<p>You can navigate the original project website through <a href="https://web.archive.org/web/20140930031902/https://yadro.de/">the Wayback Machine</a> or via the cached copy in this repo under <a href="https://marknca.github.io/dadro/yadro-de/index.html">yadro-de</a>.</p>
 </aside>
 <p>The short version of the project is that it&#39;s a small hardware device that reads and powers up to 4 scale inputs (3 axes + 1 quill). Paired with its DOS-based software, it provides a simple, robust digital read out (DRO) for lathes and mills.</p>
 <h3 id="original-software">Original software</h3>
@@ -71,10 +71,10 @@ python -m pip install -r REQUIREMENTS.txt</pre>
 <p>As you might guess, a major challenge was the floppy disk. A fragile, spinning PET plastic disk with a ferromagnetic oxide coating that&#39;s read by two electromagnetic heads is <strong>not</strong> a piece of equipment that you want running next to a lathe or a mill!</p>
 <p>All of those little metal shavings eventually find their way into either the laptop, the floppy disk drive, or the actual floppy disk.</p>
 <aside class="note">
-<p>If you are still using a floppy disk-based system, there is a <a href="../original-bootable-floppy/yadro-bootable-dos-6.22.img">bootable disk image</a> and the <a href="../original-bootable-floppy/yadro-bootable-dos-6.22/">full boot disk contents</a> in this repo.</p>
+<p>If you are still using a floppy disk-based system, there is a <a href="https://github.com/marknca/dadro/tree/main/original-bootable-floppy/yadro-bootable-dos-6.22.img">bootable disk image</a> and the <a href="https://github.com/marknca/dadro/tree/main/original-bootable-floppy/yadro-bootable-dos-6.22/">full boot disk contents</a> in this repo.</p>
 </aside>
 <h3 id="original-hardware">Original hardware</h3>
-<p>Nick&#39;s website has a complete breakdown of the hardware. From how to <a href="../yadro-de/building-the-kit.html">build the PCB</a> to the <a href="../yadro-de/int4.pdf">complete circuit diagram</a> to how to <a href="../yadro-de/debugging-scales.html">debug the scales</a>. There is also a complete schematic for <a href="../yadro-de/in-detail-interface-dro-int-4.html">the wire protocol</a> that the software interprets.</p>
+<p>Nick&#39;s website has a complete breakdown of the hardware. From how to <a href="https://marknca.github.io/dadro/yadro-de/building-the-kit.html">build the PCB</a> to the <a href="https://marknca.github.io/dadro/yadro-de/int4.pdf">complete circuit diagram</a> to how to <a href="https://marknca.github.io/dadro/yadro-de/debugging-scales.html">debug the scales</a>. There is also a complete schematic for <a href="https://marknca.github.io/dadro/yadro-de/in-detail-interface-dro-int-4.html">the wire protocol</a> that the software interprets.</p>
 <p>The hardware is extremely well designed and the only reason to consider replacing it is if your current scales fail and you decide to go in a different direction with their replacements.</p>
 <a class="back" href="#contents">Back to contents ↑</a>
 </section>
@@ -95,7 +95,7 @@ python -m pip install -r REQUIREMENTS.txt</pre>
 <p>This was enough that we were able to write a quick proof of concept by hand. This quick test confirmed that the issue was the DOS-based software and the serial-to-USB adapter, the new code easily read at full speed from the YADRO through a serial-to-USB adapter with minimal hardware. </p>
 <h3 id="rewriting-the-code-and-updating-the-user-interface">Rewriting the code and updating the user interface</h3>
 <p>The protocol to interpret the data from the YADRO hardware was the easiest part of the project. With complete documentation and the reverse engineered original software, Codex was able to write a new parser in Python that required only minor adjustments after testing with real hardware (<a href="../release/src/yadro_protocol.py">/release/src/yadro_protocol.py</a>).</p>
-<p>Efforts then moved to modernizing the user interface. While the original <a href="../yadro-de/software-dro-ddisplay.html">DOS interface</a> now comes across as very <em>retro</em>, it doesn&#39;t provide a great experience on modern hardware.</p>
+<p>Efforts then moved to modernizing the user interface. While the original <a href="https://marknca.github.io/dadro/yadro-de/software-dro-ddisplay.html">DOS interface</a> now comes across as very <em>retro</em>, it doesn&#39;t provide a great experience on modern hardware.</p>
 <p>The new implementation is designed with a more modern 1920x1080 resolution (1080p) in mind. It&#39;ll scale and adjust to other resolutions, but the expectation is that most low-cost displays will be operating at this resolution. By aiming for this common 16:9 aspect ratio, the interface focuses on displaying the scale readings in a clean, bold control that you can see clearly from a distance.</p>
 <p>Multiple macros from the original YADRO have been condensed into more intuitive functionality. This is now possible because the software is working with a graphical user interface and not a simple text-based one. </p>
 <p>Simple keyboard navigation has been maintained and the entire application can be navigated with the four arrow keys, enter, and <code>/</code>...all conveniently located on a standard number pad.</p>
