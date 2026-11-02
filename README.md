@@ -2,6 +2,8 @@
 
 Keep your YADRO hardware running with this modern re-write of Nick M&uuml;ller's YADRO software.
 
+> Read this information and the user guide at [https://marknca.github.io/dadro/](https://marknca.github.io/dadro/).
+
 ## Requirements
 
 This re-write was designed to run on Linux, macOS, and Windows. It's written using the Python programming language and uses a framework called QT for the user interface. Both of these are freely available for this use case on a broad set of supported platforms.
@@ -97,4 +99,4 @@ Multiple macro from the original YADRO have been condensed into more intuitive f
 
 Simple keyboard navigation has been maintained and the entire application can be navigated with the four arrow keys, enter, and `/`...all conveniently located on a standard number pad.
 
-The specifics of the new software are described in depth in the documentation. [You can start reading that here.](/docs/user-guide/index.html).
+The specifics of the new software are described in depth in the documentation. [You can start reading that here.](https://marknca.github.io/dadro/).
