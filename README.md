@@ -11,7 +11,7 @@ This re-write was designed to run on Linux, macOS, and Windows. It's written usi
 Most users will be running this on a Linux distribution given the primary use case of running on a shop environment. For Raspberry Pi systems, the following command will install Python and QT:
 
 ```bash
-sudo apt install python3 python3-qt6 qt6-wayland
+sudo apt install python3 python3-pyqt6 qt6-wayland
 ```
 
 Distributions using other package managers—like `yum`—should have these packages available using the same or similar names. You're looking for Python version 3 or higher and QT version 6 or higher.
