@@ -1,0 +1,442 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: The DRO:int4 interface in detail</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Details of using and connecting the DRO-interface to the digital scales and the computer.">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Interface, Digital Scales, Chinese Scales, YADRO, digital readout, DRO interface, laptop, PC, DOS, serial interface">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1216" h="195" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="525" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>DRO:int4 in Detail</h2>
+						<p>The DRO:int4 is (currently) coming as a kit version. See the <a href="buying.html">dealer's page</a> for options regarding cables, plugs and cases. They might also have scales that are guaranteed to work together with the interface.</p>
+						<p>The interface can be used without the DRO:ddisp-software if one is willing to write his own DRO-software. The interface has a set of commands that communicate with the scales, setup the interface and, most of all, gets the readings of the scales.</p>
+						<p>The sections:</p>
+						<ul>
+							<li type="disc"><a href="#a1">DRO:int4 Commands</a>
+							<li type="disc"><a href="#a2">Schematics</a>
+							<li type="disc"><a href="#a3">BOM</a>
+							<li type="disc"><a href="#a4">Reprogramming the &micro;C</a>
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a1"></a>DRO:int4 Commands:</h2>
+					</div>
+					<p>If you connect the YADRO-interface to your PC, start a terminal program (having set up the baud-rate properly) and then power up the YADRO-interface, you will be welcomed by:</p>
+					<pre>*** Welcome to YADRO-land! ***
+(c) 2005 Nick Mueller // www.yadro.de</pre>
+					<p>I have assembled a very simple <a href="download.html">terminal program</a> (TERM.EXE) for you that connects to COM1 and sets the baud rate to 19200Bd. Nothing valuable, but it works under DOS. You can change the default-port (COM1) by invoking Y-TERM with -c:COMx (x being the port#).<br>
+					You don't have to terminate commands with a CR or so.</p>
+					<p>YADRO's RS232 characteristics:</p>
+					<ul>
+						<li type="disc">19200 baud
+						<li type="disc">8 bit
+						<li type="disc">1 stop bit
+						<li type="disc">no handshake (neither XON/XOFF, nor RTS/CTS)
+					</ul>
+					<p>Note, that commands are case-sensitive! All responses from the controller are terminated by a CR/LF</p>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="2">
+						<tr>
+							<td bgcolor="#dcdcdc">command<br>
+								(Typed in a the console)</td>
+							<td bgcolor="#dcdcdc">action<br>
+								(happening inside the controller)</td>
+							<td bgcolor="#dcdcdc">response<br>
+								(from the controller)</td>
+						</tr>
+						<tr>
+							<td valign="top">v</td>
+							<td>version<br>
+								Displays version of firmware</td>
+							<td>
+								<pre>YADRO-DROINT v0.2c</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">d0<br>
+								d1<br>
+								d2<br>
+								d3</td>
+							<td valign="top">Debug/display device #0&#133; device #3 verbose information.<br>
+								Valid range is 0..3. If you are out of range, you'll get a warning.
+								<p>A &quot;d&quot;-command prepares the interface for reading from a (connected) device. If you start the YADRO for the very first time, you need to do at least a &quot;da&quot; or a &quot;d0&quot; etc. for each digital scale connected. If you don't do that, you will get error-warnings when trying to read from that port.</p>
+								<p>This command may take up to 2 seconds. It will even take longer if you connect some low frequency generating device to it. But you don't.</td>
+							<td>If nothing is connected to the port:
+								<pre>Checking device #0...
+Clock :stuck H
+Data  :stuck H</pre>
+								<p>If something is connected:</p>
+								<pre>Checking device #0...
+Clock : Signal
+Data  : Signal</pre>
+								<p>If that something is recognized:</p>
+								<pre>Checking device #0...
+Clock : Signal
+Data  : Signal
+Device:&nbsp;7BCDs&nbsp;('B')</pre>
+								<p>or</p>
+								<pre>Checking device #0...
+Clock : Signal
+Data  : Signal
+Device:&nbsp;2*24bits&nbsp;('L')</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">da</td>
+							<td>Does a &quot;d0&quot;, &quot;d1&quot;, &quot;d2&quot;, &quot;d3&quot; for your convenience in one block.</td>
+							<td><i>see d0&#133;d3</i></td>
+						</tr>
+						<tr>
+							<td valign="top">dw</td>
+							<td>Writes the information gathered by a &quot;da&quot; or &quot;d0&quot;&#133;&quot;d3&quot; command into the interfaces non volatile memory (EEPROM). If you switch off and back on again, that information is read back automatically, so you don't have to go through a &quot;da&quot; sequence every time you power the YADRO-interface up.</td>
+							<td valign="top">
+								<pre>OK</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">dr</td>
+							<td valign="top">dr is the inverse of dw. It reads the configuration from the EEPROM. You normally don't need that command, as YADRO reads that information after each reset/power up. But it helped me to find a nasty bug. So I'll leave it in there.<br>
+								The numbers you get are 8bit hex and representing the number of bits the scale connected to the ports (from left to right / from dev0 to dev3) is reading. 00 means nothing connected. A 31 would be a type &quot;L&quot; scale.</td>
+							<td valign="top">
+								<pre>31313100 OK</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">r0<br>
+								r1<br>
+								r2<br>
+								r3</td>
+							<td valign="top">Read from device #0&#133;#3. You have to have set up the interface at least once with a &quot;da&quot; command.<br>
+								The output is in hex, terminated with a CR. The bit order is exactly the same as it was received. There is no interpretation at all.<br>
+								After the device#, there is a character indicating the type of device connected. It is either a &quot;B&quot; or a &quot;L&quot;</td>
+							<td valign="top">
+								<pre>DRO#0B:0x00112233</pre>
+								<p>or</p>
+								<pre>DRO#0L:0x0011223344</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">s0<br>
+								s1<br>
+								s2<br>
+								s3</td>
+							<td valign="top">Sample device 10 times. This is a burst read from one device. E.g. like calling 10 times the &quot;r&quot; command very fast. You can use this to find out (during setting up) whether your digital scale can be switched to fast mode. It also might help in averaging the reading of that port on the PC side.</td>
+							<td valign="top"><i>10 times like a r0, r1, r2, r3</i></td>
+						</tr>
+						<tr>
+							<td valign="top">a</td>
+							<td>Active mode. In this mode, all ports are read in an infinite loop and, whenever a port changes it's value, it is sent. When no reading changes, no data is sent at all</td>
+							<td valign="top">
+								<pre>OK</pre>
+								<p><i>Then: see r0, r1, r2, r3</i></td>
+						</tr>
+						<tr>
+							<td valign="top">p</td>
+							<td>Passive mode. Just terminates the active mode. The passive mode (or &quot;polling mode&quot;) is the mode when the YADRO is powered up.<br>
+								To get readings in that mode, you have to ask (to poll) values with &quot;r0&quot;&#133;&quot;r3&quot; or with &quot;s0&quot;&#133;&quot;s3&quot;</td>
+							<td valign="top">
+								<pre>OK</pre>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">c0C<br>
+								c1C<br>
+								c2C<br>
+								c3C</td>
+							<td valign="top">Config port, by pulling Clock high. This command pulls the Clock line of the digital scale to high (1.55V) for 1 second. It helps in switching modes. See the previous pages and the description for details.
+								<p>Note that the second &quot;C&quot; is capital.</td>
+							<td valign="top">
+								<pre>OK</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>c0D<br>
+								c1D<br>
+								c2D<br>
+								c3D</td>
+							<td valign="top">Config port, by pulling Data high. This command pulls the Data line of the digital scale to high (1.55V) for 1 second. It helps in switching modes. See the previous pages and the description for details.
+								<p>Note that the &quot;D&quot; is capital!</td>
+							<td valign="top">
+								<pre>OK</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>R</td>
+							<td>Resets the interface. This is a software-reset, and the command might be quite useless. But it exists.</td>
+							<td><i>The welcome text</i></td>
+						</tr>
+					</table>
+					</p>
+					<p>Be friendly to your interface! Do not flood with commands, but wait 'till you get a response. If you do send a command before you got a response, the command will simply be lost. The controller only buffers one complete command and empties that buffer <b>after</b> the command is processed. If you send unrecognized commands, they will simply be purged without any comment.</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a2"></a>Schematics</h2>
+					<p>For reference, <a href="../media/int4.pdf">here is the schematic of the DRO:int4</a>. Sorry for the bad quality of the PDF.</p>
+					<p>Publishing the schematic does not mean that it is freeware. (C) is still by me and any commercial usage prohibited!</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a3"></a>BOM</h2>
+					<p>
+					<table border="1" cellpadding="4" cellspacing="1">
+						<tr>
+							<td bgcolor="#a9a9a9"><b>Part#</b></td>
+							<td bgcolor="#a9a9a9"><b>Spec.</b></td>
+							<td bgcolor="#a9a9a9"><b>Comment</b></td>
+						</tr>
+						<tr>
+							<td colspan="3" bgcolor="#dcdcdc">Capacitors</td>
+						</tr>
+						<tr>
+							<td>C1&#133;C5, C10, C12, C13, C15</td>
+							<td>100n</td>
+							<td>ceramic</td>
+						</tr>
+						<tr>
+							<td>C8, C9</td>
+							<td>22p</td>
+							<td>ceramic</td>
+						</tr>
+						<tr>
+							<td>C6</td>
+							<td>10u</td>
+							<td>electrolytic, 6.3V</td>
+						</tr>
+						<tr>
+							<td>C11, C16</td>
+							<td>1000u</td>
+							<td>electrolytic, 33V</td>
+						</tr>
+						<tr>
+							<td>C7</td>
+							<td>22u</td>
+							<td>electrolytic, 6.3V</td>
+						</tr>
+						<tr>
+							<td>C14</td>
+							<td>1u</td>
+							<td>tantalum, 6.3V</td>
+						</tr>
+						<tr>
+							<td><i>not drawn</i></td>
+							<td>1u</td>
+							<td>tantalum, 2V min., going in each digital scale</td>
+						</tr>
+						<tr>
+							<td colspan="3" bgcolor="#dcdcdc">Resistors</td>
+						</tr>
+						<tr>
+							<td>R1, R2, R5&#133;R12</td>
+							<td>100</td>
+							<td>R1, R2 metal film, 1%</td>
+						</tr>
+						<tr>
+							<td>R3</td>
+							<td>56</td>
+							<td>metal film, 1%</td>
+						</tr>
+						<tr>
+							<td>R4</td>
+							<td>220</td>
+							<td>metal film, 1%</td>
+						</tr>
+						<tr>
+							<td>R14, R15, R23</td>
+							<td>330</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>R16, R19..R22</td>
+							<td>3k9</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>R13, R17, R18</td>
+							<td>10k</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3" bgcolor="#dcdcdc">Diodes</td>
+						</tr>
+						<tr>
+							<td>B1</td>
+							<td>B40C800</td>
+							<td>bridge rectifier; minimum 20Volts, 200mA;</td>
+						</tr>
+						<tr>
+							<td>LED1</td>
+							<td>--</td>
+							<td>power on LED; high eff type</td>
+						</tr>
+						<tr>
+							<td colspan="3" bgcolor="#dcdcdc">Integrated Circuits</td>
+						</tr>
+						<tr>
+							<td>IC1</td>
+							<td>MAX232N (TI) or MAX232ACPE (Maxim)</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>IC2</td>
+							<td>LM317LZ</td>
+							<td>TO92 case</td>
+						</tr>
+						<tr>
+							<td>IC3, IC4</td>
+							<td>LM2901N</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>IC5</td>
+							<td>CD4051N (DIL case)</td>
+							<td>can be 4051B to</td>
+						</tr>
+						<tr>
+							<td>IC6</td>
+							<td>Atmel ATtiny2313-20PI</td>
+							<td>a Atmel 90S2313 <b>does not work</b></td>
+						</tr>
+						<tr>
+							<td>IC7</td>
+							<td>uA78S05</td>
+							<td>1.5 Amps (200mA would be enough)</td>
+						</tr>
+						<tr>
+							<td>OK1, OK2</td>
+							<td>HCPL4502 or 6N136</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3" bgcolor="#dcdcdc">Misc</td>
+						</tr>
+						<tr>
+							<td>Q1</td>
+							<td>20MHz (HC18 case)</td>
+							<td>can be the higher case to</td>
+						</tr>
+						<tr>
+							<td>DC1</td>
+							<td>5V/5V DC/DC</td>
+							<td>5v-5v DC/DC converter; <b>isolated</b>; 1W; output unregulated +/-10% SIL4-case.<br>
+								They are all called &quot;xxx0505S&quot;.</td>
+						</tr>
+						<tr>
+							<td>J1</td>
+							<td>MTA02-100</td>
+							<td>Molex</td>
+						</tr>
+						<tr>
+							<td>J2</td>
+							<td>MTA03-100</td>
+							<td>Molex</td>
+						</tr>
+						<tr>
+							<td>X2</td>
+							<td>9 pin D-sub male</td>
+							<td>get a PCB mounting or a front mounting one</td>
+						</tr>
+						<tr>
+							<td>SV2&#133;SV5</td>
+							<td>6 pin header</td>
+							<td>pin 6 is NC</td>
+						</tr>
+						<tr>
+							<td>SV1</td>
+							<td>10 pin DIL-header, male</td>
+							<td>might be left out depending on your programming means.</td>
+						</tr>
+						<tr>
+							<td><i>not drawn</i></td>
+							<td>power supply 7 &#133;9 V AC, 200mA min.</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><i>not drawn</i></td>
+							<td>null-modem cable 9 pin female/female</td>
+							<td>length as required</td>
+						</tr>
+					</table>
+					</p>
+					<p>All Rs are 1/4Watt, 10%. Except R1, R2, R3 and R4 that should be 1% metal film.<br>
+					Voltages of electrolytic caps can be higher as long as they fit onto the PCB.</p>
+					<p>I<img height="414" width="600" src="../pics/dro-interface-prototype.jpg"></p>
+					<p>For curiosity, here is my first full prototype of the DRO:int4</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<div align="left">
+						<h2><a name="a4"></a>Reprogramming the &micro;C:</h2>
+					</div>
+					<p>The DRO:int4's micro-controller can be reprogrammed. But I will offer a service for a programmed uC if the need should be.</p>
+					<p>If you are willing to invest in a very simple interface or have a ISP for the ATMEL-line of uCs you can use it together with the programming adapter on the board (ISP, 10 pin header near the processor).</p>
+					<p>After you have the necessary programming interface, download the current version of the <a href="download.html">controller's firmware here</a>, load it into the programmer's software and flash it into the YADRO-interface. Current version is V0.2c.</p>
+					<p><font color="red"><b>Do not forget to set the configuration bits of the uC when programming it</b></font>. DWEN, EESAVE, WDTON, BODLEVEL0, BODLEVEL1, CKDIV8, CKOUT, SUT0, SUT1, CKSEL0, CKSEL1, CKSEL2 have to be unchecked. Only exception is <b>BODLEVEL2 that has to be checked</b>.<br>
+					See the screenshot, if checking/unchecking/programm/set/whatever confuses me like it does you.</p>
+					<p>If you forget to set BODLEVEL2, chances are that you are loosing the configuration after disconnecting the power. BODLEVEL is brown out detection, if you care.</p>
+					<p><font color="red"><b>Look twice where pin 1 of the ISP-interface is! </b></font>This detail of the PCB is not the current layout, but the orientation of the ISP relative to the uC has not changed.</p>
+					<p><font color="red"><b><img height="257" width="269" src="../pics/jtag-pin1.gif"></b></font></p>
+					<p>This is the simples <a href="http://www.rowalt.de/mc/avr/progd.htm" target="_blank">programming-interface</a> (called TwinAVR) you can imagine. If you decide to use that one (I haven't, but got good feedback), you can build a simpler interface (compared to the one shown at the TwinAVR's page) that connects to the 10 pin head (SV1):</p>
+					<p><img height="294" width="400" src="../pics/twinprog.gif"></p>
+					<p>The &quot;X-PC&quot; connector goes to your PCs Centronics printer port. You just need 2 Rs with 220 Ohms. While programming you have to connect the power supply to the DRO:int4.</p>
+					<p>Set the configuration and security bits this way:</p>
+					<p><font color="red"><b><img height="227" width="512" src="../pics/twinfuse.jpg"></b></font></p>
+					<h3>
+					<h3>Programming with PonyProg:</h3>
+					</h3>
+					<p>You can download a plan for a ISP-interface and software <a href="http://www.lancOS.com" target="_blank">for programming the uC here</a>. This solution is more complicated but saver. If you intend to do your own projects with ATMELs, I would suggest using this one (or something similar). ISP-compatible interfaces are available at many dealers for around $10.</p>
+					<p>Set the configuration and security bits this way:</p>
+					<p><img height="310" width="591" src="../pics/ponyfuse.jpg"></td>
+			</tr>
+		</table>
+	</body>
+
+</html>

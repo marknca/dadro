@@ -1,0 +1,180 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: A DRO for a Lathe with DRO:int4 and DRO:ddisp</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Description of the macros and functions of the DRO for a lathe.">
+		<meta name="keywords" content="DIY, DRO, Chinese Scale, Digital Scale, Mill, Interface, YADRO, lathe, benchtop lathe, digital readout, Digital Read-Out, cheap chinese scale, homebuilt digital readout, DRO kit">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1239" h="195" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="525" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>DRO for a Lathe</h2>
+						<p>YADRO's DRO is generic. This means it can be used for almost any tool that needs a Digital Read-Out. As the process of writing a configuration file with all of the macros is a bit complicated and complex, a configuration for a lathe is included. When looking at the available functions, the reader has to bear in mind, that the functionality can be easily modified, expanded or reduced. Anyhow, here is my solution that evolved during work with the DRO.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Axis Definition:</h2>
+						<p>There are standards for the definition of the axes of a lathe. Unfortunately, this standard isn't for conventional lathes. So some additions are needed.</p>
+						<p>Axis Z1 is the travel of the carriage, Z2 is the travel of the compound along the spindle axis and c is the rotation of the compound. To ease the math, axis Z is the addition of Z1 + Z2. A rotated compound also adds to the X-axis (diameter) and adds a smaller part to the Z-value (trigonometry).</p>
+						<p><a href="../pics/dro-lathe.jpg" target="_blank"><img height="175" width="200" src="../pics/dro-lathe-s.jpg" border="1">enlarge</a></p>
+						<p>The configuration file for a lathe displays 4 axes:</p>
+						<ul>
+							<li type="disc">Radius/Diameter (can be switched)
+							<li type="disc">Z or Z1 (can be switched)
+							<li type="disc">Z2 (the part along the spindle)
+							<li type="disc">Compound travel (along the axis of the compound)
+						</ul>
+						<p>This configuration requires 3 scales. One on the cross slide, one on the carriage and one on the compound.</p>
+						<h2>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						</h2>
+						<h2>Standard Functions:</h2>
+						<ul>
+							<li type="disc"><b>-X change sign of X-axis<br>
+							</b>Changes the sign of the X-axis
+							<li type="disc"><b>-Z1 change sign of Z1-axis<br>
+							</b>See -X
+							<li type="disc"><b>-Z2 Change sign of Z2-axis<br>
+							</b>See -X
+							<li type="disc"><b>AA Absolute all<br>
+							</b>Sets all axes to absolute mode
+							<li type="disc"><b>AX absolute X<br>
+							</b>Sets X-axis to absolute display
+							<li type="disc"><b>AZ1 absolute Z1<br>
+							</b>See AX. If in Z-sum-mode, Z2 is set to absolute mode too.
+							<li type="disc"><b>AZ2 absolute Z2<br>
+							</b>See AX
+							<li type="disc"><b>CR Compound rotation<br>
+							</b>Calculates and adds the projected travel of a rotated compound to X and Z. A positive angle is CCW (see picture above).
+							<li type="disc"><b>DD Display diameter<br>
+							</b>Displays the diameter (double the X-value)
+							<li type="disc"><b>DR Display radius<br>
+							</b>Displays the X-value (radius)
+							<li type="disc"><b>DZS Display Sum Z1 + Z2<br>
+							</b>Displays the sum of Z1 and Z2
+							<li type="disc"><b>DZP Display Parts Z1, Z2<br>
+							</b>Displays Z1 and Z2 as single values
+							<li type="disc"><b>OX Offset X by a value (abs/rel)<br>
+							</b>Adds a given value to the display. Either to the absolute or the relative value.
+							<li type="disc"><b>OZ1 Offset Z1 by a value (abs/rel)<br>
+							</b>See OX
+							<li type="disc"><b>OZ2 Offset Z2 by a value (abs/rel)<br>
+							</b>See OX
+							<li type="disc"><b>Prec+1 Increase precision<br>
+							</b>Increases the displayed precision. In inch, 4 digits behind the DP. In mm, 3 digits behind DP.
+							<li type="disc"><b>PrecN normal precision<br>
+							</b>Sets back the precision to the normal value. 2 digits in mm, 3 in inch
+							<li type="disc"><b>PX Preset X (abs/rel)<br>
+							</b>Sets the display to a given value. In rel. mode, the offset is adjusted so, that the given value is displayed.
+							<li type="disc"><b>PZ1 Preset Z1 (abs/rel)<br>
+							</b>See PX
+							<li type="disc"><b>PZ2 Preset Z2 (abs/rel)<br>
+							</b>See PX
+							<li type="disc"><b>RA relative all<br>
+							</b>Sets all axes to relative mode
+							<li type="disc"><b>RX relative X<br>
+							</b>Sets X-axis to relative mode
+							<li type="disc"><b>RZ1 relative Z1<br>
+							</b>See RX
+							<li type="disc"><b>RZ2 relative Z2<br>
+							</b>See RX
+							<li type="disc"><b>SM Switch metric<br>
+							</b>Switches to metric (mm) display
+							<li type="disc"><b>SI Switch inch<br>
+							</b>Switches to inch display
+							<li type="disc"><b>ZA Zero all (abs/rel)<br>
+							</b>Zeros all axes. In rel. mode, the offset is changed, so that 0 is displayed and the absolute value is untouched
+							<li type="disc"><b>ZX Zero X (abs/rel)<br>
+							</b>Zeros X-axis. See ZA
+							<li type="disc"><b>ZZ1 Zero Z1 (abs/rel)<br>
+							</b>See ZX
+							<li type="disc"><b>ZZ2 Zero Z2 (abs/rel)<br>
+							</b>See ZX
+							<li type="disc"><b>{Configuration} Configure AVG-threshold; tool geometry snap (metric/inch)<br>
+							</b>Edits the following values
+							<ul>
+								<li type="disc">AVG-buffer threshold metric/inch
+								<li type="disc">tool geometry snap metric/inch
+							</ul>
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Tool related Functions:</h2>
+						<ul>
+							<li type="disc"><b>#- Switch off tool geometry<br>
+							</b>Switches off the selected tool (##00 etc.) and switches off the automatic tool correction
+							<li type="disc"><b>#E Edit active tool<br>
+							</b>Edits the active tool. Parameters are: X-offset, Z-offset, tool tip radius and tool width
+							<li type="disc"><b>#00&#133;#10<br>
+							</b>Select tool. The list is currently 11 entries long, but can be easily extended
+							<li type="disc"><b>TGC Tool geometry correction<br>
+							</b>Asks for the tool's X-offset, Z-offset, tool tip radius and tool width and the snap-value. If the tool is moved twice the snap-distance, the DRO knows on which side (Y- axis) is cutting on and adds/substracts the tool's width.
+							<li type="disc"><b>TG- Switch off tool geometry<br>
+							</b>Switches off a TGC-command.
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Special Functions:</h2>
+						<ul>
+							<li type="disc"><b>ARV Approx. Radius concaVe<br>
+							</b>Approximates a radius (starting angle, ending angle, radius, tool tip radius) with a given number of steps
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Missing Functions:</h2>
+						<p>Should you need more macros or have written your own macro(s) you would like to share, <a href="../en/impressum.html">let me hear</a>. I'll be glad to publish them here or have a link to your home page.</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

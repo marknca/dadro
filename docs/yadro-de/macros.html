@@ -1,0 +1,397 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: Macros for the DRO in Detail</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Writing own macros and extending the functions of the configurable DRO-interface.">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Chinese Scale, Interface, Programming, Scripting, Script, MACRO, YADRO, Macro">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1246" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="553" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>Dealing with Macros for the DRO</h2>
+						<p>If you want to write your own macros, modify existing ones or just want to translate the existing macros to a different language, this is the place to read on.</p>
+						<p>This part is not yet in the state it should be. Because it doesn't fully show all commands. It is best to look at an existing yadro.cfg-file.</p>
+						<ul>
+							<li type="disc"><a href="#a1">Translating macros</a>
+							<li type="disc"><a href="#a2">Writing own Macros</a>
+							<li type="disc"><a href="#a3">Arranging Code in Macros</a>
+							<li type="disc"><a href="#a4">Debugging Macros</a>
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+					</div>
+					<h2><a name="a1"></a>Translating Macros</h2>
+					<p>Most of all the user-interface that is language-dependant can be found in the macros (in the file yadro.cfg). It is no black art to translate them to a different language. There are only 3 keywords to look for.</p>
+					<p>First, the macro names:<br>
+					Macros have names that are shown in the macro selection list. These names are also used to access the macros by typing the macro's name. Macros that belong together all start with the same letters. These letters are abbreviations of the macro. If they names get translated, it is wise to keep the grouping (or have a different grouping).</p>
+					<p><u>Do not translate a macro who's name starts with <b>internal</b>!</u></p>
+					<p>A typical line in the yadro.cfg that needs translation looks like this:</p>
+					<p>Macro:<font color="#006400"><b>AA Absolute all (X, Y, Z)</b></font></p>
+					<p>The text right behind the &quot;Macro:&quot; is the text to be translated (in <font color="#006400"><b>green</b></font>). I'll translate them to &#133;</p>
+					<p>German:<br>
+					Macro:<font color="#006400"><b>AA Absolut Alle (X, Y, Z)</b></font></p>
+					<p>French:<br>
+					Macro:<font color="#006400"><b>AT Absolute touts (X, Y, Z)</b></font></p>
+					<p>Second user queries:<br>
+					DRO:ddisp can ask for values in macros. The describing text needs to be translated. There are two functions that do a query. They are getnext and input. The pattern of the parameters is the same for both. They do have an odd number of parameters and the first and every even parameter (the 1st, 2nd, 4th, 6th, &#133;) need translation. The string to be translated is between &quot; and in <font color="#006400"><b>green</b></font>.</p>
+					<p>getnext(&quot;<font color="#006400"><b>Move to X/Y = 0.0</b></font>&quot;);</p>
+					<p>I'll translate it to German:<br>
+					getnext(&quot;<font color="#006400"><b>X und Y nullen</b></font>&quot;);</p>
+					<p>The other function to translate (input) and a longer example:</p>
+					<p>input(&quot;<font color="#006400"><b>Hole Circle</b></font>&quot;, &quot;<font color="#006400"><b>Center X (Disp1):</b></font>&quot;, HCCenterX, &quot;<font color="#006400"><b>Center Y (Disp2):</b></font>&quot;, HCCenterY, &quot;<font color="#006400"><b>Number of holes:</b></font>&quot;, HCHoles, &quot;<font color="#006400"><b>Diameter:</b></font>&quot;, HCDiam, &quot;<font color="#006400"><b>Starting angle:</b></font>&quot;, HCAngle);</p>
+					<p>translated to German:</p>
+					<p>input(&quot;<font color="#006400"><b>Lochkreis</b></font>&quot;, &quot;<font color="#006400"><b>Mittelpunkt X (Disp1):</b></font>&quot;, HCCenterX, &quot;<font color="#006400"><b>Mittelpunkt Y (Disp2):</b></font>&quot;, HCCenterY, &quot;<font color="#006400"><b>Lochzahl:</b></font>&quot;, HCHoles, &quot;<font color="#006400"><b>Durchmesser:</b></font>&quot;, HCDiam, &quot;<font color="#006400"><b>Startwinkel:</b></font>&quot;, HCAngle);</p>
+					<div align="left">
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+					</div>
+					<h2><a name="a2"></a>Writing own Macros</h2>
+					<p>Here, I'll go through a complete config-file and pick out the interesting parts and explain the commands on the fly. As DRO:ddisp is making progress, this example doesn't completely reflect the current YADRO.CFG-file. But it still helps to understand things.</p>
+					<p>The first few lines:
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>; YADRO-Configuration file
+;
+; Lines are format sensitive. That means that you should not put blanks
+; where you want. They won't be skipped.
+; Comments start with a &quot;;&quot; at the leftmost position. This is an example
+; for format sensitivity.</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>The whole YADRO.CFG consists of a list of instructions. To make your life a bit easier you can have comments between macros or interpreter-commands (you'll see that in a moment). Comments start with a &quot;;&quot; at the leftmost position. But you don't need comments, don't you?</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Interp:
+  display(&quot;ConnectAs&quot;, 0, 0);
+  display(&quot;ConnectAs&quot;, 2, 1);
+:EndI</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Everything between the symbols <b>Interp:</b> and <b>:EndI</b> (on the leftmost!) is directly sent to the interpreter. It is not stored and can not later be referenced. It is handy for setting things up.<br>
+					We need to know what devices are connected and to read from. We tell this the YADRO-engine with <b>display(&quot;ConnectAs&quot;, 0, 0)</b>. Everything influencing the display (or the YADRO-engine) has the command <b>display</b>. You can connect a physical device at some port to a different logical device. A physical device is the digital scale, a logical device is represented by it's value in the variable-pool. To connect the physical device #0 to the variable#2 write <b>display(&quot;ConnectAs&quot;, 0, 2)</b>. This way you can break the dependencies between the cables and the logic behind axis. You can even logically swap axis during runtime. If your X-axis is connected to dev#0 and your Y-axis to dev#1 you have a <b>display(&quot;ConnectAs&quot;, 0, 0)</b> and a <b>display(&quot;ConnectAs&quot;, 1, 1)</b>.<br>
+					If you want (whenever) to flip X and Y, you execute the commands <b>display(&quot;ConnectAs&quot;, 0, 1)</b> and <b>display(&quot;ConnectAs&quot;, 1, 0).<br>
+					</b>You can even logically disconnect devices (if you no longer need to read from it during execution) with a <b>display(&quot;DisConnect&quot;, 1</b>) (here for dev#1).</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Interp:
+  display(&quot;AxName&quot;, 1, &quot;X&quot;);
+  display(&quot;AxName&quot;, 2, &quot;Y&quot;);
+  display(&quot;AxName&quot;, 3, &quot;Z&quot;);
+
+  display(&quot;AxSecName&quot;, 1, &quot;X (abs)&quot;);
+  display(&quot;AxSecName&quot;, 2, &quot;Y (abs)&quot;);
+  display(&quot;AxSecName&quot;, 3, &quot;Z (abs)&quot;);
+:EndI</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Now axis need names. They are not hard coded into the program. They are defined. Internally, axis are numbered from 1&#133;3 (3 axis for now). Axis number 1 being the topmost. You give names to axis with <b>display(&quot;AxName&quot;, 1, &quot;X&quot;)</b> (naming axis #1 &quot;X&quot;). Theoretically you can give names you want, but currently, only a few characters are supported (will add more, have to design them). The names allowed for now are &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot; and the diameter-sign. To get the diam.character, you write &quot;/O&quot;.<br>
+					Because of YADRO being better, you not only have 3 axes, but 3 primary axis and 3 secondary axis. The later you define with display(&quot;AxSecName&quot;, 1, &quot;X&quot;). They are displayed directly below the primary axis, and are very handy to reflect the absolute value. If you don't define them (same for primary axis), they will not show.<br>
+					If you want to remove an axis during runtime, you make a display with an empty string (eg &quot;&quot;). Don't forget, that YADRO still will read from the physical device you defined in display(&quot;ConnectAs&quot;&#133;).</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Interp:
+  fvar Dev0ScalingMetric, Dev0ScalingInch;
+  fvar Dev1ScalingMetric, Dev1ScalingInch;
+  fvar Dev2ScalingMetric, Dev2ScalingInch;
+  fvar PrecisionMetric, PrecisionInch;
+
+
+  Dev0ScalingMetric = 1 / 100;
+  Dev0ScalingInch =   1 / (100 * 25.4);
+
+  Dev1ScalingMetric = 1 / (-20480 / 25.4);
+  Dev1ScalingInch   = 1 / -20480;
+
+  Dev2ScalingMetric = Dev1ScalingMetric;
+  Dev2ScalingInch   = Dev1ScalingInch;
+
+  PrecisionMetric = 2;
+  PrecisionInch = 4;
+:EndI</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>As I said, there is a variable pool. The variables need to be declared and defined. Variables do have no scope, they are always global. You might call this ugly or bad style, but in this case it is OK, because all the code tends to be monolithic and small.<br>
+					Variables are defined with <b>fvar</b> (for float-variable). Currently, there are only floats (long double for the programmers). The reason why it is wise to define the variables directly (by <b>Interp:</b>) is, that it is better to define and declare them at a place the program does not execute again and again. Albeit the instruction is lost after execution, the result (the variables and their contents) is not lost.<br>
+					Above, I also have defined some &quot;constants&quot; that help us scaling the values going to the display. You will understand that later.<br>
+					When vars are declared, their value is initialized with 0.0</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Macro:internalStatusAbsX
+  intStatusAbsX = 1;
+  display(&quot;Status&quot;, 1, 2, &quot;abs&quot;);
+:EndM</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here is a macro. Macros are bracketed by <b>Macro:</b> and <b>:EndM</b>. Macros also have names. And they need names! The name of the macro goes right behind the <b>Macro:</b>. Macro names can have blanks etc. in their name. All macros can be user-selected within a sorted popup-list. But macros (like this one) that start with an &quot;internal&quot; are filtered out (but still stored) and are not directly user executable. They work as tools/subprograms.</p>
+					<p>The command <b>display(&quot;Status&quot;, 1, 2, &quot;abs&quot;)</b> is just another way of telling YADRO what to display. Behind every axis value on the screen is room for displaying status information, like &quot;mm&quot;, &quot;inch&quot;, &quot;abs&quot;, &quot;rel&quot;, &#133; The first number is the number of the axis, the second number is the line for that axis. Every axis has 6 lines for status-information. To delete a status information, you send an empty string (&quot;&quot;) to it.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Macro:internalMetric
+  fvar count;
+
+  Dev0Scaling = Dev0ScalingMetric;
+  Dev1Scaling = Dev1ScalingMetric;
+  Dev2Scaling = Dev2ScalingMetric;
+
+  count = 1;
+  while (count &lt;= 3) {
+    display(&quot;Status&quot;,       count, 1, &quot;mm&quot;);
+    display(&quot;Precision&quot;,    count, PrecisionMetric);
+    display(&quot;SecPrecision&quot;, count, PrecisionMetric);
+    count = count + 1;
+  }
+:EndM</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here is another macro, that has about a typical size. It is used to switch between metric and inch units. This macro also is an internal. There is a display with a new argument. <b>display(&quot;Precision&quot;, count, PrecisionMetric)</b> sets the precision (the decimal places behind the decimal point) for every axis. Yes, you can set different precisions and also have different units for each axis. The units are not limited to mm and inch, you can use whatever unit you want. Also you see that I have used the variable PrecisionMetric and not a number. This is good coding style, because you have to change the number only at one place. Also, you see the while statement. This is a looping statement. And it is the only one. There are no for-loops. For programers, it is important to note that after a while (&lt;condition&gt;) there is always a pair of {}, even for single statements. This makes life for the interpreter a bit easier to find the end of the block.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Interp:
+  fvar OffsetX, OffsetY, OffsetZ;
+  fvar SignX, SignY, SignZ;
+  fvar Dev0Scaling, Dev1Scaling, Dev2Scaling;
+
+  SignX = 1;
+  SignY = 1;
+  SignZ = 1;
+
+  execmacro(&quot;internalMetric&quot;);
+  display(&quot;Source&quot;, 1, &quot;Dev0 * Dev0Scaling * SignX + OffsetX&quot;);
+  display(&quot;Source&quot;, 2, &quot;Dev1 * Dev1Scaling * SignY + OffsetY&quot;);
+  display(&quot;Source&quot;, 3, &quot;Dev2 * Dev2Scaling * SignZ + OffsetZ&quot;);
+
+  display(&quot;SecSource&quot;, 1, &quot;Dev0 * Dev0Scaling&quot;);
+  display(&quot;SecSource&quot;, 2, &quot;Dev1 * Dev1Scaling&quot;);
+  display(&quot;SecSource&quot;, 3, &quot;Dev2 * Dev2Scaling&quot;);
+
+  execmacro(&quot;internalStatusAbsX&quot;);
+  execmacro(&quot;internalStatusAbsY&quot;);
+  execmacro(&quot;internalStatusAbsZ&quot;);
+:EndI</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here is the code part, that does the mayor setup of the YADRO-engine. The code is sent to the interpreter directly. Again, this means that the code is gone, as soon as it is executed. Also again, the variables and their contents is not lost.</p>
+					<p>There are some things worth noting:</p>
+					<p>Variables can be re-declared as often as you want. If the variable exists, the fvar statement is simply ignored. This means, the variable keeps its contents. You should not declare variables in macros that are used in loops, because it is a waist of time.</p>
+					<p>The statement <b>execmacro(&quot;internalMetric&quot;)</b> executes (or calls) the macro named &quot;internalMetric&quot;. Macros can have blanks in their name. If you should want to call a macro you have to write the name exactly in the same way. Case sensitive and with all blanks or whatever. So this is no good idea to call user macros. Think about what happens if your macro is translated to another language. It is best to wrap (even the smallest) macro into an internal macro if it is used both as internal and a user selectable.</p>
+					<p>The statement <b>display(&quot;Source&quot;, 1, &quot;Dev0 * Dev0Scaling * SignX + OffsetX&quot;)</b> is probably the most important one. And needs some explanation.<br>
+					The readings from the digital interface are read by the YADRO-engine, converted from their hexadecimal representation to a float and written into the variables <b>Dev0</b>&#133;<b>Dev3</b>. There is no conversion. The contents of Dev0&#133;Dev3 is the raw data. As the YADRO-engine knows nothing about the units you use, you have to convert the raw numbers. This is done by the statement <b>&quot;Dev0 * Dev0Scaling * SignX + OffsetX&quot;</b>. The YADRO-engine takes that string and binds it to one of its channels/axis. It uses this statement as its data-source. That's where the &quot;Source&quot; comes from. Whenever a axis value has to be displayed, the statement is executed and the result is displayed. Basically, something like &quot;Dev0 / 20480&quot; or so would be enough. But we want to switch units, so we use the variable Dev0Scaling (look back at the macro internalMetric to see what happens to Dev0Scaling). We also want to reverse the axis direction, so we have a variable SignX that is either 1.0 or -1.0. Furthermore, we might want to work in relative mode, so we need the variable OffsetX. OffsetX is 0.0 in abs-mode, and some other value in rel mode.<br>
+					As we have secondary axis, we need secondary data-sources. That's what &quot;SecSource&quot; is for. If you don't display secondary axis, you don't have &quot;SecSource&quot; statements. Here, the secondary axis displays the absolute value, so no need for SignX or OffsetX.</p>
+					<p>If you want, you can display something different, by simply changing the statement. If you want to add two axis, the statement would look like &quot;Dev0 * Dev0Scaling + Dev2 * Dev2Scaling&quot;. Of course, you can do this for primary (&quot;Source&quot;) and secondary (&quot;SecSource&quot;) axis.</p>
+					<p>You can change that binding whenever you want by simply executing another display(&quot;Source&quot; ...).</p>
+					<p>What you have seen until now is a working (disregarding some left out macros) config file. But YADRO would not be YADRO if this would be all.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Macro:SM Metric
+  execmacro(&quot;internalMetric&quot;);
+:EndM:BindKey:F1
+;
+Macro:SI Inch
+  execmacro(&quot;internalInch&quot;);
+:EndM:BindKey:F2
+;
+Macro:ZA Zero all axes (hardware)
+  senddevice(&quot;c0C&quot;);
+  senddevice(&quot;c1C&quot;);
+  senddevice(&quot;c2C&quot;);
+:EndM:BindKey:F10</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here are three interesting macros. Let's have a look at the first &quot;SM Metric&quot; one. User selectable macros can be displayed in a pop-up list. The are alphabetically sorted. So it is wise to group them in a manner that shows which ones belong together. We do this by using abbreviations like &quot;SM&quot; (for &quot;Set Metric&quot; in this example). Also, when a user presses a key, the maco list pops up and selects the first macro that matches the key. If the user continues typing, the selection continues. If the user types &quot;sm&quot; (the selection is not case sensitive), the macro &quot;SM Metric&quot; is selected. If he presses return, the macro is executed. So the selection of the macro for setting metric units is just 3 key strokes away (s+m+&lt;Return&gt;). This is quite good for macros that are not used frequently, but it is obvious, that you want to use the function keys to execute macros. You can bind macros to F-keys by adding a &quot;:BindKey&quot; after the <b>:EndM.</b> So in the first macro, the <b>:EndM:BindKey:F1</b> binds the function key F1 to the macro &quot;SM Metric&quot;. In the first and second macro, I called the internal macros internalInch and internalMetric.</p>
+					<p>The third macro uses a new command <b>senddevice</b>. Senddevice sends any string to the digital interface. You have to know what to do here and should read <a href="detail-interface.html">here</a> for details. In this case, the &quot;c0C&quot; etc. sets the scale #0 to zero. All commands sent to the digital interface wait for an &quot;OK&quot; of the interface. Looking into the documentation (part 3), you will see that a &quot;c0C&quot; takes about 1 second to answer. So these 3 commands &quot;c0C&quot;, &quot;c1C&quot; and &quot;c2C&quot; will take 3 seconds to come back. Have a look in a real cfg-file to see how I shipped around this problem. Hint: look for ShdwOffs.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Macro:SX Step rel. offs. by value
+  fvar SXoffs;
+  if (input(&quot;Offset rel-X by value&quot;, &quot;offset:&quot;, SXoffs)) {
+    execmacro(&quot;internalStatusRelX&quot;);
+    OffsetX = OffsetX + SXoffs;
+  }
+:EndM</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here is another macro with new things to learn. The SX-macro adds some more offset to the offset. It is stepping or incrementing/decrementing the offset. Again, let me remind how variable-redeclaration is handled: Only for the first time the interpreter finds a fvar SXoffs, the content is initialized to 0.0. Further declarations of the variable keep their value. Here is an example that shows why this is handy. The first time, the step is zero, the user changes it's value and when calling the macro a second time, the macro remembers the previous user input.</p>
+					<p>That user input is processed by the statement <b>input(&quot;Offset rel-X by value&quot;, &quot;offset:&quot;, SXoffs)</b>. Input can have a variable number of arguments. But the number of arguments is always odd. The shortest possible form is with one argument. The first argument is always a string. This string is the title in a pop-up window that displays the other parameters (if given) and an OK-&quot;button&quot;. If the user leaves the input-window with a return, input returns a value of 1, and the code following input and in-between the {} is executed.</p>
+					<p>If input has more than one argument, it is a repeating pattern of strings and variables. So &lt;string&gt; &lt;string&gt; &lt;var&gt; is OK, or &lt;string&gt; &lt;string&gt; &lt;var&gt; &lt;string&gt; &lt;var&gt;.</p>
+					<p>The input function arranges the argument in lines. On the left is a string, on the right is the value of the variable passed. These input fields call the interpreter to solve the user input. So it is legal for the user to type a &quot;Disp1&quot; as a value. Or to type &quot;sin(30) + 111.033&quot;<br>
+					You'll see another use of input later.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Macro:HCXY Hole circle X
+  fvar HCHoles, HCAngle, HCDiam;
+  fvar HCCenterX, HCCenterY;
+  fvar HCOldOffsX, HCOldOffsY;
+  fvar HCIncrement, HCIAngle, HCSteps;
+
+  if (HCCenterX == 0) { HCCenterX = Disp1 }
+  if (HCCenterY == 0) { HCCenterY = Disp2 }
+  if (HCHoles == 0) { HCHoles = 4; }
+
+  if (input(&quot;Hole Circle&quot;,
+         &quot;Center X (Disp1):&quot;, HCCenterX,
+         &quot;Center Y (Disp2):&quot;, HCCenterY,
+          &quot;Number of holes:&quot;, HCHoles,
+                 &quot;Diameter:&quot;, HCDiam,
+           &quot;Starting angle:&quot;, HCAngle)) {
+
+    HCOldOffsX = OffsetX;
+    HCOldOffsY = OffsetY;
+    execmacro(&quot;internalStatusAbsSave&quot;);
+    execmacro(&quot;internalStatusRelX&quot;);
+    execmacro(&quot;internalStatusRelY&quot;);
+
+    HCIncrement = 360 / HCHoles;
+    HCIAngle = HCAngle;
+    HCSteps = HCHoles;
+    while (HCSteps &gt; 0) {
+      OffsetX = HCCenterX;
+      OffsetY = HCCenterY;
+      OffsetX = OffsetX + sin(HCIAngle) * HCDiam / 2;
+      OffsetY = OffsetY + cos(HCIAngle) * HCDiam / 2;
+
+      if (!getnext(&quot;Move to X/Y = 0&quot;)) { break; }
+
+      HCIAngle = HCIAngle + HCIncrement;
+      HCSteps = HCSteps - 1;
+    }
+
+    OffsetX = HCOldOffsX;
+    OffsetY = HCOldOffsY;
+
+    execmacro(&quot;internalStatusAbsRestore&quot;);
+  }
+:EndM:BindKey:F3</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>This macro is quite understandable with your current knowledge. It does a hole circle with a given center (in the X-Y-plane) with given number of holes and a starting angle. The macro is invoked by pressing F3 (<b>:Bindkey:F3</b>) Note what I do with the variable HCHoles. It first is set to 4 if it was 0. Later, HCHoles will remember the last input. The same happens to HCCenterX and HCCenterY. The statement input has been explained. Note the &lt;string&gt; &lt;string&gt; &lt;var&gt; &lt;string&gt; &lt;var&gt; &lt;string&gt; &lt;var&gt; &lt;string&gt; &lt;var&gt; &lt;string&gt; &lt;var&gt; pattern. Odd number of parameters!</p>
+					<p>If the user leaves the <b>input</b> with an OK, the following code is executed, if not, just part of the setup was executed.<br>
+					The code behind the input does further setup. For example remember the mode (abs/rel) the YADRO was in.<br>
+					Then there is the new statement <b>getnext</b> within the while-loop. Before the execution of <b>getnext</b>, the axis values for the YADRO-engine are manipulated in a way that the user just has to move to a position where X and Y are zero. When <b>getnext</b> is executed, the YADRO-engine switches to a special loop, where only the keys Ret and Esc are accepted as input. It shows something like &quot;Stepping...&quot; on the screen and displays the current values of all axes. Now if the user has moved to X/Y being zero, he presses Ret and the function comes back to the macro. If he pressed Ret, <b>getnext</b> returns 1 and the loop is continued. If the user aborted with a Esc, the statement between the {} (the <b>break</b>) is executed. A <b>break</b> leaves a while loop. The while-loop is executed until all holes were drilled. After the last <b>getnext</b> the previous state of the abs/rel-mode is restored (<b>execmacro(&quot;internalStatusAbsRestore&quot;</b>)) and the YADRO-engine comes back to it's normal loop, where other macros can be selected.</p>
+					<p>The <b>getnext</b>-statement has the same pattern of arguments like the<b> input</b>-statement.</p>
+					<p>You also noticed the sin() and cos(). YPL has other (trigonometric) functions like sinc, cos, tan, asin, acos, atan, sinh, cosh, tanh, sqrt, sqr, log, ...</p>
+					<p>With what you know now, you will understand most of the other macros you find in the YADRO.CFG-file.</p>
+					<p>
+					<table border="1" cellpadding="5" cellspacing="0">
+						<tr>
+							<td>
+								<pre>Interp:
+  if (input(&quot;Initialize Devices?&quot;)) {
+    execmacro(&quot;ZA Zero all axes&quot;);
+  }
+:endI</pre>
+							</td>
+						</tr>
+					</table>
+					</p>
+					<p>Here is a final example of a macro. It is at the very end of YADRO.CFG. Because of this, it is executed as the last piece of code (note the Interp:). This is the place where setup-code goes. In this case, it has one interesting property: If you have to restart YADRO or disconnect some devices to reset them, you don't want to zero all other axis. So the setup is conditional. If the user responds with a Esc to the question, the setup-code is skipped.</p>
+					<h3>Other commands</h3>
+					<p>There are two other commands without code snippets. They do averaging. You will see, that the readings from the scales are not very stable (depending on their quality). If you look back into <a href="../digital-scale/protocol.html">part 2</a>, you will also see, that some scales have a high theoretical resolution.<br>
+					Averaging the readings helps to improve or exploit the situation. There are two averaging methods I have implemented.<br>
+					I experimented a bit, and it seems, that I can get a resolution of 2/1000mm with the scales from part 2. But I have to further investigate. If you can't improve resolution, at least you get stable readings.</p>
+					<p><b>display(&quot;Average&quot;, &quot;GAT&quot;, 20, 0.01)</b>; is one of them. The &quot;GAT&quot; stands for Gliding Average with Threshold. GAT uses a buffer (the size is the 20 in this example) where the last readings are stored. A new reading replaces the oldest one. All values are summed up and divided by the number of readings in the buffer. Don't make buffers to big. A value of 10 &#133; 20 is about OK. The bigger the buffer, the better the average value. As it is very unhandy to wait for the buffer to be filled with the actual value, there is a threshold. If the current reading differs from the average in the buffer by a value bigger than threshold (in the example 0.01), the whole averaging buffer is discarded. This way, you get right readings when you move and averaged readings that are stable when you don't move. Experiment with the values, they depend upon your scales and the speed of your PC.<br>
+					Another averaging method is <b>display(&quot;Average&quot;, &quot;WA&quot;, 20, 0.8);</b> &quot;WA&quot; stands for Weighted Average. This method also fills a buffer and sums all elements. But here, only the first element is weighted with one, the following elements get a lower weighting the older they are. The weighting is determined by the 4th parameter (in the example the 0.8). In detail: The first element (the newest) is weighted with 1, the next with 0.8, the next with 0.64 (0.8 * 0.8) etc. If the buffer is 20 elements deep, the last element has a weight of 0.014.<br>
+					Values to start experimenting with are 10 &#133; 20 for the buffer depth and 0.8 &#133; 0.9 for the weighting. A weight of 1 or even bigger is no good idea.</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a3"></a>Arranging code and macros</h2>
+					<p>The YADRO.CFG-file is read and executed sequentially. Whenever something appears in the Interp: :EndI brackets, it is executed directly. This means, that you can not reference macros the cfg-reader has not yet passed over. So it is mandatory to put the macros that are referenced with Interp: before. Of course you can distribute macros as you want, they are accessed via their name. This also implies, that names should be distinguishable. You can (not very clever) have duplicate names as long as the macros are user selected. But for internal macros (starting with &quot;internal&quot;) I can't tell you which one will be called.</p>
+					<h2><img height="21" width="298" src="../pics/line.gif"></h2>
+					<h2><a name="a4"></a>Debugging Macros</h2>
+					<p>Whenever there is an error in a macro, a window pops up, shows the source code surrounding the error, highlights the line with the error and puts a mark right behind the error. Also, it displays the cause of the error as the window's title. For now, you just can remember the position, quit YADRO and edit your cfg.<br>
+					A trick: If you miss variable tracing or don't know where your code goes, put input(&quot;I am here&quot;, &quot;myVar&quot;, myVar) in the code.<br>
+					I strongly recommend to test your macros in a way that executes every branch of code. Remember, YADRO is no compiler it is an interpreter. That means he only checks syntax right in the moment he tries to execute the statement he is processing.</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

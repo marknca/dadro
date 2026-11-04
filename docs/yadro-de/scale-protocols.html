@@ -1,0 +1,145 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: Protocols of Digital Chinese Scales. Building a mini-scale</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Protocols of digital scales. 7 BCD and 2 * 24 bit.">
+		<meta name="keywords" content="DIY, DRO, Digital Read-Out, Interface, Connect, Connecting, Digital Scale, Protocol, Sylvac, Chinese Scale, YADRO, cheap chinese scale, homemade DRO, how they work, capacitive digital scale">
+		<meta name="robots" content="index,follow">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="1164" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="553" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="../dro/news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="../dro/diy.html">in brief</a>
+						<li type="disc"><a href="../dro/interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="../dro/display.html">the&nbsp;software</a>
+						<li type="disc"><a href="../dro/mill.html">DRO for a mill</a>
+						<li type="disc"><a href="../dro/lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="../dro/faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="../dro/using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="../dro/using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="../dro/setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="../dro/build-kit.html">building the kit</a>
+						<li type="disc"><a href="../dro/detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="../dro/scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="../dro/detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="../dro/macro.html">macros</a>
+						<li type="disc"><a href="protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="working.html">scales inside out</a>
+						<li type="disc"><a href="vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="../dro/download.html">Downloads</a></p>
+					<p><a href="../dro/buying.html">where to buy</a></p>
+					<p><a href="../dro/newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>Protocols of Digital Scales</h2>
+						<p>There are two different protocols for those &quot;cheap Chinese Scales&quot;. Do not confuse these protocols with the ones (and completely different) of other scales. Other protocols not covered here (for now) are the Digimatic or the Quadrature-Encoder (QE) protocols.</p>
+						<p>Described here is the:</p>
+						<ul>
+							<li type="disc"><a href="#a0">Switching states</a>
+							<li type="disc"><a href="#a1">7 BCDs protocol</a>
+							<li type="disc"><a href="#a2">2 * 24 Bit protocol</a>
+						</ul>
+						<p>The protocols described here are the ones the DRO:int4 can handle. There is a <a href="../dro/buying.html">small dongle that fits to the DRO:int4</a> and connects to QEs on the other side and behaves like a 2 * 24 Bit scale.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2><a name="a0"></a>Switching States:</h2>
+					</div>
+					<p>The scales can be switched in their state (hold modes, fast transfer, etc.) and it seems that these states are common among all scales.</p>
+					<p>The scales can be switched to different modes by pulling the clock or data line to H (= high = 1.55V). Not all scales do have corresponding bottoms or even describe the modes in their manuals. But it seems that all do at least implement the same state sequence until the F.T.-mode.</p>
+					<div align="left">
+						<p>The modes, and how they are switched, is best described by a state diagram:</p>
+					</div>
+					<p><img height="261" width="387" src="../pics/digital-scale-states.gif"></p>
+					<p>Gray rectangular boxes are events, round boxes are states.</p>
+					<p>The possible events are:</p>
+					<ul>
+						<li type="disc">Clock: pull Clk to H
+						<li type="disc">Data: pull Data to H
+					</ul>
+					<p>There are further events like OFF/ON or inch/mm, but they are either obvious or change the mode in any state. They are left out in this diagram, because there is no remote access to these buttons and to keep the diagram clearer.</p>
+					<p>The possible states are:</p>
+					<ul>
+						<li type="disc">Normal Mode: When you power on
+						<li type="disc">Hold: freezes value in the display, even when moving the slide
+						<li type="disc">Maximum: keeps the biggest reading, even when moving to a smaller reading. There is no Minimum mode
+						<li type="disc">Fast: higher reading rate. Normally about 3 / second, in fast mode about 50
+					</ul>
+					<p>Note: You can only switch off the display, the digital interface stays active.</p>
+					<p>Attention: Ground planes and the scale itself are connected to battery +.</p>
+					<p>Nominal battery voltage is 1.55 V; L is &lt; 0.2V; H is &gt; 1.3V</p>
+					<p><img height="21" width="298" src="../pics/line.gif"></p>
+					<div align="left">
+						<h2><a name="a1"></a>7 BCDs Protocol:</h2>
+					</div>
+					<p>This protocol is one that is rare to find. I got only one supplier (ALDI) who offered digital calipers with that protocol. As they were very inexpensive (EUR 9.99) it was worth implementing that protocol.</p>
+					<p>The pins (again):<br>
+					Pin 1: Battery -<br>
+					Pin 2: Data<br>
+					Pin 3: Clock<br>
+					Pin 4: Battery +</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-1.gif" border="1"></p>
+					<p>The signal. Upper channel is clock, lower channel is data. A complete datagram is about 780us long. Every packet has 4 bits (BCD). The last packet transports additional information The whole datagram consists of 7 packets. So 6 digits can be transmitted that would result in a maximum range of 9999.99mm.</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-0.gif" border="1"></p>
+					<p>Two packets (the first two) at a closer look. Every packet has a lead in of 54us H. Following that are 4 clocks that signal the bits. Reading takes place at the falling edge of the clock. The first packet is the lowest (LSB first) number. If the display reads 123.45mm, the packets read 5, then 4, then 3, etc.<br>
+					In this shot you see the number 7 (binary 0111) in the first packet and the number 5 (binary 0101) in packet 2<br>
+					So the display reads ???.57</p>
+					<p>&nbsp;</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-3.gif" border="1"></p>
+					<p>A single packet with a closer look at the timing. Reading is always at the falling edge!</p>
+					<p><b>The last packet (the seventh &quot;BCD&quot;):</b></p>
+					<p>The last packet does not transmit numbers, but additional information. So it is no BCD, but just 4 flags.</p>
+					<p>They are in detail (LSB first):</p>
+					<ul>
+						<li type="disc">Bit 0: sign. L = +, H = -
+						<li type="disc">Bit 1: in inch-mode H means +0,0005 inch, unused in mm-mode.
+						<li type="disc">Bit 2: unit: mm/inch. H= mm; L= inch
+						<li type="disc">Bit 3: unknown.
+					</ul>
+					<p><img height="21" width="298" src="../pics/line.gif"></p>
+					<h2><a name="a2"></a>2 * 24 Bit Protocol</h2>
+					<p>This is the most common protocol. It consists of 2 packets with each having 24 bits. So I call it the 2 * 24 bit protocol. Others name it the Sylvac-protocol (Sylvac seems to be the inventor).</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-4.gif"></p>
+					<p>The signal. Upper channel is clock, lower channel is data. A complete datagram is about 850us long. There are 2 packets. Every packet has 24 bits. The first packet transmits an absolute position, but there is no absolute info on the scale itself. It is quite worthless, because what the scale <b>thinks</b> that his absolute position is, changes whenever the power is removed. The second packet is the relative position in respect of where zero was pressed or the scale powered on.</p>
+					<p>&nbsp;</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-5.gif"></p>
+					<p>Part of the first packet at a closer look. There is a lead-in that is about 53us long. Following that are 23 pulses that have a cycle time of 13us. As with the caliper with 7BCDs, data is read at the falling edge. Bits are transferred LSB first! Also, data is 2's complement.</p>
+					<p>&nbsp;</p>
+					<p><img height="480" width="640" src="../pics/digital-scale-signal-6.gif"></p>
+					<p>If you think it is wise to read when the clock is H, here is a shot that shows a glitch that hopefully will stop you from making that error.</p>
+					<p>There is no information transmitted about the state the linear scale is in. No units, no hold, nothing. The data is not directly a representation of the display. To interpret the data, it has to be scaled. Every inch is divided into 20480 steps. Or every mm has 806.299 steps.</p>
+					<p>This would give a resolution of 0.00005 inch, or 0.0012mm! No, not exactly. The last bits have jitter, about +/-5 units. With the averaging and overshampling implemented in the <a href="../dro/detail-display.html">DRO:ddisp-software</a>, the jitter can be reduced and resolution increased.</td>
+			</tr>
+		</table>
+	</body>
+
+</html>

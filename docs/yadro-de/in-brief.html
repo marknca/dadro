@@ -1,0 +1,106 @@
+<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<title>YADRO: What kind of DRO kit is that, in brief?</title>
+		<meta name="language" content="en">
+		<meta name="description" content="Short description and highlights of the DRO-interface for lathes, mills and other tools.">
+		<meta name="robots" content="index,follow">
+		<meta name="keywords" content="DRO, DIY, Digital Read-Out, Interface, Chinese Scale, Digital Scale, YADRO, cheap chinese scale, digital dreadout, digital scale, mill, lathe, benchtop lathe, diy dro, homebuilt dro, homebuilt">
+		<link rel="stylesheet" type="text/css" href="/css/yadro.css">
+	</head>
+
+	<body>
+		<csobj w="580" h="204" t="Component" csref="../../yadro.data/Components/pageheader.html" occur="0">
+		<div align="right">
+			<table border="0" cellpadding="0" cellspacing="4" width="99%">
+				<tr>
+					<td align="left" valign="bottom"><a href="../digitalanzeige/index.html"><img height="18" width="33" src="../pics/flag-de.gif" border="0" alt="Deusch/German">&nbsp; Deutsch</a>
+						<p><a href="../index.html"><img height="18" width="33" src="../pics/flag-en.gif" border="0" alt="English/Englisch">&nbsp; English</a></td>
+					<td align="right"><img height="180" width="438" src="../pics/yadro-logo.gif" alt="YADRO-Logo"></td>
+				</tr>
+			</table>
+			<hr noshade size="3">
+		</div>
+		</csobj>
+		<table border="0" cellpadding="0" cellspacing="10" width="100%">
+			<tr>
+				<td valign="top" bgcolor="#dcdcdc"><csobj w="170" h="624" t="Component" csref="../../yadro.data/Components/mainnav_e.html" occur="0"><a href="../index.html">Home</a>
+					<p><a href="news.html">News</a></p>
+					<p>What is it?</p>
+					<ul>
+						<li type="disc"><a href="diy.html">in brief</a>
+						<li type="disc"><a href="interface.html">the&nbsp;interface</a>
+						<li type="disc"><a href="display.html">the&nbsp;software</a>
+						<li type="disc"><a href="mill.html">DRO for a mill</a>
+						<li type="disc"><a href="lathe.html">DRO for a lathe</a>
+						<li type="disc"><a href="faq.html">obvious questions</a>
+					</ul>
+					<p>Using YADRO</p>
+					<ul>
+						<li type="disc"><a href="using-interface.html">interface DRO:int4</a>
+						<li type="disc"><a href="using-display.html">software DRO:ddisp</a>
+						<li type="disc"><a href="setup.html">setup: step by step</a>
+					</ul>
+					<p>In Detail</p>
+					<ul>
+						<li type="disc"><a href="build-kit.html">building the kit</a>
+						<li type="disc"><a href="detail-interface.html">interface&nbsp;DRO:int4</a>
+						<li type="disc"><a href="scale-debugging.html">debugging scales</a>
+						<li type="disc"><a href="detail-display.html">software&nbsp;DRO:ddisp</a>
+						<li type="disc"><a href="macro.html">macros</a>
+						<li type="disc"><a href="../digital-scale/protocol.html">scale&nbsp;protocols</a>
+						<li type="disc"><a href="../digital-scale/mounting-modding.html">scale&nbsp;modifications</a>
+						<li type="disc"><a href="../digital-scale/working.html">scales inside out</a>
+						<li type="disc"><a href="../digital-scale/vfd.html">scales and VFDs</a>
+					</ul>
+					<p><a href="download.html">Downloads</a></p>
+					<p><a href="buying.html">where to buy</a></p>
+					<p><a href="newsletter.html">Newsletter</a></p>
+					<p><a href="../en/links.html">links</a></p>
+					<p><a href="../en/impressum.html">Contact</a></csobj></td>
+				<td valign="top">
+					<div align="left">
+						<h2>What is that DRO kit, in brief?</h2>
+						<p>So what is YADRO's DRO?<br>
+						A DRO (Digital Read-Out) is a device that displays movements of (normally 3) axes on a mill or a lathe. It is used to ease work on conventional machines (non-CNC).</p>
+						<p>The YADRO-DRO consists of 2 parts:</p>
+						<ul>
+							<li type="disc">An interface that connects to the digital scales that are fixed to a mill or a lathe or any other tool that is in need of precise and reproducible display of it's axes.
+							<li type="disc">A software that runs on an old laptop or PC.
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>Motivation:</h2>
+						<p>I have been thinking about wanting a DRO for years. When <a href="http://www.motor-manufaktur.de" target="_blank">my tasks got more complex</a>, I more and more lost track of the position I mill at by counting revs on the spindle. But all DROs on the market had at least two of the three disadvantages:</p>
+						<ul>
+							<li type="disc">expensive
+							<li type="disc">dumb
+							<li type="disc">dedicated (mill <b>or</b> lathe)
+						</ul>
+						<p>When I got an offer for cheap Chinese scales, and researched a bit how they work, I decided to build a DRO that first of all does what I need and is flexible. The result was a inexpensive interface that is connected to a computer. That computer's software should be reconfigurable to solve as many tasks as possible. Even those I did not think about when I built the DRO! An example is functionality to mill cam shafts with mathematically correct harmonic lobes and a defined angular offset between the lobes of a multi cylinder cam.</p>
+						<p>The result is the perfect inverse of the list above:</p>
+						<ul>
+							<li type="disc">inexpensive
+							<li type="disc">intelligent (scriptable/programmable)
+							<li type="disc">flexible (can be configured for <b>any</b> tool that has not more than 4 axes. mill / lathe / shaper / grinder /&#133;)
+						</ul>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>The Interface:</h2>
+						<p>The interface, called DRO:int4, is a handful of chips and other electronic parts that communicates with (up to 4) connected digital scales. The communication with the scales is two-way. So the DRO:int4 not just can read values from the scales, but also switch modes on them.<br>
+						The main part of that interface is a micro-controller that understands the protocol of the scales and converts that bitstream into a more readable format for the PC.<br>
+						The interface also is converting voltage-levels and supplies power to the scales, so you don't have to swap batteries every 6 months.<br>
+						The communication with the PC (see next chapter) is via a serial (RS-232) interface that is opto-isolated to avoid problems with ground-loops in electrically noisy shop.</p>
+						<p>The DRO:int4 has a <a href="scale-debugging.html">built-in debugging-feature</a> that helps in finding and solving problems with the scales should they not work.</p>
+						<p>From the very beginning of the design, a most robust construction and the easiest assembly of the kit were the main goals.</p>
+						<p><img height="21" width="298" src="../pics/line.gif"></p>
+						<h2>The PC-Software:</h2>
+						<p>Most of the work of displaying data is done on a PC. This approach is the big advantage of YADRO's DRO. You can use an old PC or laptop that is dedicated to your shop and is cheap. It is enough if that PC is running at 33 MHz (or more), has a serial connection (RS-232 aka V24) has a working hard-disk and a floppy-drive. No need for CD-ROM, USB etc. Often, you get good enough PCs or laptops for free or very little money. So why waste money for a good display that is often available for some bottles of beer?<br>
+						That software receiving the data from the interface is very flexible. It is obvious to use all the processing power of a real PC, contrary to dedicated DRO-boxes that have only a simple and slow processor inside and are nearly fully occupied to the data and to display it on three lines of LEDs.<br>
+						This processing power enables a completely different approach to solve the display task and to solve the calculations involved. DRO:ddisp (the part running on the PC) has it's own programming language that you can extend by your own macros to solve special tasks.</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+
+</html>
